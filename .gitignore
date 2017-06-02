@@ -1,0 +1,14 @@
+/.php_cs.cache
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+/.idea
+/.vagrant
+Homestead.json
+Homestead.yaml
+/public/uploads
+/public/uploads/*
+npm-debug.log
+.env
