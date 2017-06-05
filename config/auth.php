@@ -1,5 +1,7 @@
 <?php
 
+use App\Model\Subscriber;
+
 return [
 
     /*
@@ -15,7 +17,7 @@ return [
 
     'defaults' => [
         'guard' => 'api',
-        'passwords' => 'users',
+        'passwords' => 'subscribers',
     ],
 
     /*
@@ -31,7 +33,7 @@ return [
     | users are actually retrieved out of your database or other storage
     | mechanisms used by this application to persist your user's data.
     |
-    | Supported: "session", "token"
+    | Supported: "session", "token", "passport"
     |
     */
 
@@ -43,7 +45,7 @@ return [
 
         'api' => [
             'driver' => 'passport',
-            'provider' => 'users',
+            'provider' => 'subscribers',
         ],
     ],
 
@@ -70,6 +72,11 @@ return [
             'model' => App\Model\User::class,
         ],
 
+        'subscribers' => [
+            'driver' => 'eloquent',
+            'model' => Subscriber::class
+        ]
+
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -94,6 +101,11 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
+        'subscribers' => [
+            'provider' => 'subscribers',
             'table' => 'password_resets',
             'expire' => 60,
         ],
