@@ -122,7 +122,7 @@ return [
     |
     */
 
-    'cookie' => 'smart_parking_session',
+    'cookie' => 'fifty_talents_api',
 
     /*
     |--------------------------------------------------------------------------
