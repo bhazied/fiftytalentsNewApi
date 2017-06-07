@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -65,7 +66,12 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
-        Route::prefix('api')
+        $locale = Request::segment(1);
+        $prefix = 'api';
+        if(in_array($locale, config('translatable.locales'))){
+            $prefix = $locale.'/api';
+        }
+        Route::prefix($prefix)
              ->middleware('api')
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));

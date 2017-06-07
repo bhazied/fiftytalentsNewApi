@@ -9,7 +9,7 @@ class Country extends Model
 {
     use Translatable;
 
-    public $traslatedAttributes = ['name'];
+    public $translatedAttributes = ['name'];
 
     public function countryTranslations(){
         return $this->hasMany(CountryTranslation::class);

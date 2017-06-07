@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
 use \Illuminate\Support\Facades\Route;
 
@@ -28,5 +28,7 @@ Route::middleware('auth:api')->get('/profile', function () {
 
 Route::group(['middleware' => ['auth:api', 'autrhorization']], function () {
     Route::resource('users', 'Api\UserController');
-    Route::resource('cars', 'Api\CarController');
 });
+
+Route::resource('countries', 'Api\CountryController', ['only' => 'index']);
+
