@@ -199,8 +199,8 @@ abstract class BaseRepository implements IRepository, IRepositoryCriteria
         if (!$model instanceof Model) {
             throw new RepositoryExceprion('the class '. $this->model() . ' is not an instance off Illuminate\\Database\\Eloquent\\Model');
         }
-        //return $this->model = $model->newQuery();
-        return $this->model = $model;
+        return $this->model = $model->newQuery();
+        //return $this->model = $model;
     }
 
 
@@ -231,6 +231,7 @@ abstract class BaseRepository implements IRepository, IRepositoryCriteria
      */
     public function lists($columns = ['*'])
     {
+        $this->applyScope();
         $this->applyCriteria();
         $results = $this->model->get($columns);
         $this->getModel();

@@ -2,12 +2,15 @@
 
 namespace App\Model;
 
+use Dimsav\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 
 class State extends Model
 {
 
-    public $traslatedAttributes = ['name'];
+    use Translatable;
+
+    public $translatedAttributes = ['name'];
 
     public function state_translations(){
         return  $this->hasMany(StateTranslation::class);

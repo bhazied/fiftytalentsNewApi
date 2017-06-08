@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Model;
+namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CondidateProfile extends Model
+class CandidateProfile extends Model
 {
     //
 }

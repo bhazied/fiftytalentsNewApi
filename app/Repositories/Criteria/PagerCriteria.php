@@ -26,7 +26,7 @@ class PagerCriteria extends Criteria
 
     public function apply($model, IRepository $repository)
     {
-        $limit =  $this->request->get(config('app.repository.criteria.request.limit'), 10);
+        $limit =  $this->request->get(config('app.repository.criteria.request.limit'), 100);
         $ofsset = $this->request->get(config('app.repository.criteria.request.offset'), 0);
         $model->skip($ofsset)->take($limit);
         return $model;

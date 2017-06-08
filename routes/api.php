@@ -31,4 +31,9 @@ Route::group(['middleware' => ['auth:api', 'autrhorization']], function () {
 });
 
 Route::resource('countries', 'Api\CountryController', ['only' => 'index']);
+Route::resource('jobs', 'Api\JobController', ['only' => 'index']);
+Route::resource('departements', 'Api\DepartmentController', ['only' => 'index']);
+Route::resource('skills', 'Api\SkillController', ['only' => 'index']);
+Route::resource('states', 'Api\StateController', ['only' => 'index']);
+Route::resource('educations', 'Api\EducationController', ['only' => 'index']);
 

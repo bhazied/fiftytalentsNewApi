@@ -2,20 +2,26 @@
 /**
  * Created by PhpStorm.
  * User: dev03
- * Date: 12/05/17
- * Time: 11:40
+ * Date: 08/06/17
+ * Time: 13:28
  */
 
 namespace App\Repositories;
 
-use App\Model\State;
+
+use App\Model\Skill;
 use App\Repositories\Contracts\BaseRepository;
 use Illuminate\Database\Eloquent\Model;
 
-class StateRepository extends BaseRepository
+class SkillRepository extends BaseRepository
 {
+
+    /**
+     * init the model with we want to use
+     * @return Model
+     */
     protected function model()
     {
-        return State::class;
+        return Skill::class;
     }
 }

@@ -18,7 +18,6 @@ class CountryRepository extends BaseRepository
 
     protected function model()
     {
-        //   return 'App\Model\Country';
         return Country::class;
     }
 

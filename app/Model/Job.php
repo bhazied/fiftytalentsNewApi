@@ -14,4 +14,8 @@ class Job extends Model
     public function jobTranslations(){
         return $this->hasMany(JobTranslation::class);
     }
+
+    public function department(){
+        return $this->belongsTo(Department::class);
+    }
 }

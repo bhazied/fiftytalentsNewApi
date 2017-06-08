@@ -37,8 +37,8 @@ class ApiLoginController extends Controller
             'password' => $request->password,
             'scope' => '*'
         ]);
-
-        $proxy = Request::create('api/oauth/token', 'POST');
+        $locale = app()->getLocale();
+        $proxy = Request::create($locale.'/api/oauth/token', 'POST');
         $response =  Route::dispatch($proxy);
         $responseAsArray = json_decode($response->getcontent(), true);
         if (isset($responseAsArray['error'])) {

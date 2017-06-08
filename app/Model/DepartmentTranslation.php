@@ -4,9 +4,9 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class DepartementTranslation extends Model
+class DepartmentTranslation extends Model
 {
     public function departement(){
-        return $this->belongsTo(Departement::class);
+        return $this->belongsTo(Department::class);
     }
 }
