@@ -20,7 +20,8 @@ Route::get('/confirm/{id}/{token}', 'Auth\ApiLoginController@confirm');
 Route::post('/oauth/token', [
     'uses' => 'Api\CustomAccessTokenController@issueUserToken'
 ]);
-Route::post('/login', 'Auth\ApiLoginController@login');
+Route::post('/candidate/register', 'Auth\ApiRegisterController@register');
+Route::post('/candidate/auth', ['as' => 'postLogin', 'uses' => 'Auth\ApiLoginController@login']);
 
 Route::middleware('auth:api')->get('/profile', function () {
     return Auth::user();

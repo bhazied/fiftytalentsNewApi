@@ -4,14 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Repositories\UserRepository;
 use Carbon\Carbon;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 
 class ApiLoginController extends Controller
 {
@@ -29,12 +26,15 @@ class ApiLoginController extends Controller
 
     public function login(Request $request)
     {
+        $usernamme = $request->get('username') ? $request->get('username') : $request->get('email');
         $request->request->add([
             'client_id' => $this->client->id,
             'client_secret' => $this->client->secret,
             'grant_type' => 'password',
-            'username' => $request->username,
-            'password' => $request->password,
+            //'username' => $request->username,
+            //'password' => $request->password,
+            'username' => $usernamme,
+            'password' => $request->get('password'),
             'scope' => '*'
         ]);
         $locale = app()->getLocale();
@@ -44,7 +44,7 @@ class ApiLoginController extends Controller
         if (isset($responseAsArray['error'])) {
             return $responseAsArray;
         }
-        $currentUser = \App\Model\User::where('email', $request->username)->first();
+        $currentUser = \App\Model\Subscriber::where('email', $request->get('username'))->first();
         $currentUser =  ['user' => $this->parseUser($currentUser)];
         $endResponse = array_merge($responseAsArray, $currentUser);
         return $endResponse;
@@ -52,7 +52,6 @@ class ApiLoginController extends Controller
 
     public function confirm($id, $token)
     {
-        //$user = $this->userRepository->findWhere(['id' => $id, 'confirmation_token'=> $token]);
         $user = $this->userRepository->find($id);
         if ($user->confirmation_token == $token) {
             $created = Carbon::parse($user->created_at);

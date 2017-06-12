@@ -1,0 +1,27 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: dev03
+ * Date: 09/06/17
+ * Time: 12:47
+ */
+
+namespace App\Repositories;
+
+
+use App\Model\Team;
+use App\Repositories\Contracts\BaseRepository;
+use Illuminate\Database\Eloquent\Model;
+
+class TeamRepository extends BaseRepository
+{
+
+    /**
+     * init the model with we want to use
+     * @return Model
+     */
+    protected function model()
+    {
+        return Team::class;
+    }
+}

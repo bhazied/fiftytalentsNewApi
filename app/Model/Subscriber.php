@@ -12,4 +12,12 @@ class Subscriber extends Authenticatable
     use HasApiTokens, Notifiable;
 
     protected $guard = 'subscribers';
+
+    protected $guarded = ['id'];
+
+    protected $dates = [
+        'created_at',
+        'modified_at',
+        'deleted_at'
+    ];
 }
