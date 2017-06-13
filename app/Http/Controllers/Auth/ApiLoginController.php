@@ -31,8 +31,6 @@ class ApiLoginController extends Controller
             'client_id' => $this->client->id,
             'client_secret' => $this->client->secret,
             'grant_type' => 'password',
-            //'username' => $request->username,
-            //'password' => $request->password,
             'username' => $usernamme,
             'password' => $request->get('password'),
             'scope' => '*'
@@ -72,7 +70,9 @@ class ApiLoginController extends Controller
     {
         return [
             'id' => $user->id,
-            'name' => $user->name,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'last_connexion' => $user->last_connexion,
             'email' => $user->email,
         ];
     }

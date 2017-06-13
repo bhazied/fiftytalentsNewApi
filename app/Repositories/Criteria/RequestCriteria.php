@@ -103,11 +103,9 @@ class RequestCriteria extends Criteria
                     $joinTable = implode('.', $explode);
                     $keyName = $this->getForeignKeyName($joinTable);
                     $joinTable = Str::plural($joinTable);
-                    //dd($joinTable, $keyName, $sortedColumn, $sortedBy, $table);
                     $model = $model->leftJoin($joinTable, $table.'.'.$keyName, '=', $joinTable.'.id')
                         ->orderBy($joinTable.'.'.$sortedColumn, $sortedBy)
                         ->select($table.'.*');
-                    //dd($model);
                 } else {
                     $sortedColumn = $attribute;
                     $model->orderBy($sortedColumn, $sortedBy);

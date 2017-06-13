@@ -27,9 +27,10 @@ Route::middleware('auth:api')->get('/profile', function () {
     return Auth::user();
 });
 
-Route::group(['middleware' => ['auth:api', 'autrhorization']], function () {
+Route::group(['middleware' => ['auth:api']], function () {
     Route::resource('users', 'Api\UserController');
-    Route::resource('educations', 'Api\EducationController', ['only' => 'index']);
+    Route::resource('educations', 'Api\EducationController');
+    Route::put('educations/order/{education}', 'Api\EducationController@order')->name('educations.order');
 });
 
 Route::resource('countries', 'Api\CountryController', ['only' => 'index']);

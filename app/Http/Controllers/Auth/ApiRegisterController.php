@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Requests\RegisterRequest;
 use App\Notifications\registredUser;
+use App\Repositories\CandidateProfileRepository;
+use App\Repositories\JobRepository;
 use App\Repositories\SubscriberRepository;
 use App\Repositories\TeamRepository;
 use Illuminate\Auth\Events\Registered;
@@ -27,11 +29,28 @@ class ApiRegisterController extends Controller
      * @var TeamRepository
      */
     private $teamRepository;
+    /**
+     * @var CandidateProfileRepository
+     */
+    private $cProfileRepository;
+    /**
+     * @var JobRepository
+     */
+    private $jobRepository;
 
-    public  function __construct(SubscriberRepository $subscriberRepository, TeamRepository $teamRepository)
+    /**
+     * ApiRegisterController constructor.
+     * @param SubscriberRepository $subscriberRepository
+     * @param TeamRepository $teamRepository
+     * @param CandidateProfileRepository $cProfileRepository
+     * @param JobRepository $jobRepository
+     */
+    public  function __construct(SubscriberRepository $subscriberRepository, TeamRepository $teamRepository, CandidateProfileRepository $cProfileRepository, JobRepository $jobRepository)
     {
         $this->subscriberRepository = $subscriberRepository;
         $this->teamRepository = $teamRepository;
+        $this->cProfileRepository = $cProfileRepository;
+        $this->jobRepository = $jobRepository;
     }
 
     public function register(RegisterRequest $request)
@@ -42,9 +61,11 @@ class ApiRegisterController extends Controller
         }
         $data = $request->except(['phone', 'cgu_candidate', 'job_id']);
         $user = $this->create($data);
+        $dataProfile = $request->only(['phone', 'job_id']);
+        $dataProfile['subscriber_id'] = $user->id;
+        $this->profileCreate($dataProfile);
         event(new Registered($user));
         $user->notify(new registredUser());
-        //return redirect()->route('postLogin', ['username' => $user->email, 'password'=> $data['password']]);
         $request->request->add([
             'username' => $user->email,
             'password' => $data['password']
@@ -66,5 +87,12 @@ class ApiRegisterController extends Controller
         $data['password'] = bcrypt($data['password']);
         $data['salt'] = Str::random(40);
         return $this->subscriberRepository->create($data);
+    }
+
+    protected function profileCreate($data)
+    {
+        $job = $this->jobRepository->find($data['job_id']);
+        $data['department_id'] = $job->department_id;
+        return $this->cProfileRepository->create($data);
     }
 }

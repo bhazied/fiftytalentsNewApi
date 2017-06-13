@@ -7,6 +7,7 @@ use App\Repositories\EducationRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 
 class EducationController extends Controller
@@ -53,7 +54,15 @@ class EducationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            $data = $request->all();
+            $data['order'] = '';
+            $education =  $this->educationRepository->create($data);
+            return Response::json(['status' => true, 'result' => $education]);
+        }
+        catch (\Exception $ex){
+            return Response::json(['status' => false, 'message' => 'Education add error']);
+        }
     }
 
     /**
@@ -64,7 +73,7 @@ class EducationController extends Controller
      */
     public function show(Education $education)
     {
-        //
+        return $education;
     }
 
     /**
@@ -87,7 +96,14 @@ class EducationController extends Controller
      */
     public function update(Request $request, Education $education)
     {
-        //
+        try{
+           $data = $request->all();
+            $this->educationRepository->update($data, $education->id, $this->educationRepository->getModelKeyName());
+            return Response::json(['status' => true, 'result' => $this->educationRepository->find($education->id) ]);
+        }
+        catch (\Exception $ex){
+            return Response::json(['status' => false, 'message' => 'Education update error']);
+        }
     }
 
     /**
@@ -98,6 +114,21 @@ class EducationController extends Controller
      */
     public function destroy(Education $education)
     {
-        //
+        if($this->educationRepository->delete($education->id)){
+            return ['status' => true, "message" => "Education deleted"];
+        }
+        return ['status' => false, "message" => "Education not deleted"];
+    }
+
+    public function order(Request $request, Education $education)
+    {
+        $oldOrder = $request->get('oldOrder');
+        $newOrder = $request->get('newOrder');
+        $currentSubscriber = Auth::user()->CandidateProfile;
+        $changedWith = $this->educationRepository->findWhere([ ['order', '=', $newOrder],['subscriber_id', '=', $currentSubscriber->id] ])->first();
+        $oldOrder = ['order' => $oldOrder];
+        $newOrder = ['order' => $newOrder];
+        $this->educationRepository->update($oldOrder, $changedWith->id, $this->educationRepository->getModelKeyName());
+        $this->educationRepository->update($newOrder, $education->id, $this->educationRepository->getModelKeyName());
     }
 }
