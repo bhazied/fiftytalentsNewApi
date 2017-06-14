@@ -29,10 +29,13 @@ class EducationController extends Controller
      */
     public function index()
     {
-        $inlineCount =  $this->educationRepository->pushCriteria(App::make('\App\Repositories\Criteria\RequestCriteria'))->count();
+        $subscriber = Auth()->user();
+        $inlineCount =  $this->educationRepository->pushCriteria(App::make('\App\Repositories\Criteria\RequestCriteria'))
+            ->findBy('c_profile_id',$subscriber->profiles->first()->id)
+            ->count();
         $results = $this->educationRepository->pushCriteria(App::make('\App\Repositories\Criteria\RequestCriteria'))
             ->pushCriteria(App::make('\App\Repositories\Criteria\PagerCriteria'))
-            ->lists();
+            ->findBy('c_profile_id',$subscriber->profiles->first()->id);
         return Response::json(compact('inlineCount', 'results'));
     }
 
@@ -56,7 +59,9 @@ class EducationController extends Controller
     {
         try{
             $data = $request->all();
-            $data['order'] = '';
+            $subscriber = Auth()->user();
+            $orderCount = $this->educationRepository->findBy('c_profile_id',$subscriber->profiles->first()->id)->count();
+            $data['order'] = $orderCount+1;
             $education =  $this->educationRepository->create($data);
             return Response::json(['status' => true, 'result' => $education]);
         }
@@ -124,11 +129,18 @@ class EducationController extends Controller
     {
         $oldOrder = $request->get('oldOrder');
         $newOrder = $request->get('newOrder');
-        $currentSubscriber = Auth::user()->CandidateProfile;
-        $changedWith = $this->educationRepository->findWhere([ ['order', '=', $newOrder],['subscriber_id', '=', $currentSubscriber->id] ])->first();
-        $oldOrder = ['order' => $oldOrder];
-        $newOrder = ['order' => $newOrder];
-        $this->educationRepository->update($oldOrder, $changedWith->id, $this->educationRepository->getModelKeyName());
-        $this->educationRepository->update($newOrder, $education->id, $this->educationRepository->getModelKeyName());
+        $profile = Auth::user()->profiles->first();
+        $changedWith = $this->educationRepository->findWhere([ ['order', '=', $newOrder],['c_profile_id', '=', $profile->id] ])->first();
+        if($changedWith) {
+            $old = ['order' => $oldOrder];
+            $new = ['order' => $newOrder];
+           // dd($education->id, $new, $changedWith->id, $old);
+            $this->educationRepository->update($new, $education->id, $this->educationRepository->getModelKeyName());
+            $this->educationRepository->update($old, $changedWith->id, $this->educationRepository->getModelKeyName());
+            return Response::json(['status' => true, 'message' => 'Education order updates']);
+        }
+        else{
+            return Response::json(['status' => false, 'message' => 'Education with new order not found']);
+        }
     }
 }

@@ -20,4 +20,9 @@ class Subscriber extends Authenticatable
         'modified_at',
         'deleted_at'
     ];
+
+    public function profiles()
+    {
+        return $this->hasMany(CandidateProfile::class);
+    }
 }

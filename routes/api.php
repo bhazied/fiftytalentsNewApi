@@ -31,6 +31,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::resource('users', 'Api\UserController');
     Route::resource('educations', 'Api\EducationController');
     Route::put('educations/order/{education}', 'Api\EducationController@order')->name('educations.order');
+    Route::resource('experiences', 'Api\ExperienceController');
 });
 
 Route::resource('countries', 'Api\CountryController', ['only' => 'index']);
