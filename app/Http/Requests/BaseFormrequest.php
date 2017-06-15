@@ -27,7 +27,7 @@ class BaseFormrequest extends FormRequest
 
     protected function formatErrors(Validator $validator)
     {
-        return ['error' => parent::formatErrors($validator)];
+        return [ 'status' => false ,'messages' => parent::formatErrors($validator)];
     }
 
     public function rules()

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\ExperienceRequest;
 use App\Model\Experience;
 use App\Repositories\ExperienceRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 
 class ExperienceController extends Controller
@@ -58,9 +60,19 @@ class ExperienceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ExperienceRequest $request)
     {
-        //
+        try{
+            $data = $request->all();
+            $subscriber = Auth()->user();
+            $orderCount = $this->experienceRepository->findBy('c_profile_id',$subscriber->profiles->first()->id)->count();
+            $data['order'] = $orderCount+1;
+            $experience =  $this->experienceRepository->create($data);
+            return Response::json(['status' => true, 'result' => $experience]);
+        }
+        catch (\Exception $ex){
+            return Response::json(['status' => false, 'message' => 'Experience add error']);
+        }
     }
 
     /**
@@ -71,7 +83,7 @@ class ExperienceController extends Controller
      */
     public function show(Experience $experience)
     {
-        //
+        return $experience;
     }
 
     /**
@@ -94,7 +106,17 @@ class ExperienceController extends Controller
      */
     public function update(Request $request, Experience $experience)
     {
-        //
+        try{
+            $data = $request->all();
+            $result = $this->experienceRepository->update($data, $experience->id, $this->experienceRepository->getModelKeyName());
+            if($result){
+                return Response::json(['status' => true, 'result' => $this->experienceRepository->find($experience->id) ]);
+            }
+            return Response::json(['status' => false, 'message' => 'Experience update error' ]);
+        }
+        catch (\Exception $ex){
+            return Response::json(['status' => false, 'message' => 'Experience update error']);
+        }
     }
 
     /**
@@ -105,6 +127,37 @@ class ExperienceController extends Controller
      */
     public function destroy(Experience $experience)
     {
-        //
+        if($this->experienceRepository->delete($experience->id)){
+            return ['status' => true, "message" => "Experience deleted"];
+        }
+        return ['status' => false, "message" => "Experience not deleted"];
+    }
+
+    /**
+     * @param Request $request
+     * @param Experience $experience
+     * @return mixed
+     */
+    public function order(Request $request, Experience $experience)
+    {
+        $oldOrder = $request->get('oldOrder');
+        $newOrder = $request->get('newOrder');
+        $profile = Auth::user()->profiles->first();
+        $changedWith = $this->experienceRepository->findWhere([ ['order', '=', $newOrder],['c_profile_id', '=', $profile->id] ])->first();
+        if(!is_null($changedWith)) {
+            $old = ['order' => $oldOrder];
+            $new = ['order' => $newOrder];
+            $this->experienceRepository->update($new, $experience);
+            $this->experienceRepository->update($old, $changedWith);
+
+            /*$changedWith->order = $oldOrder;
+            $experience->order = $newOrder;
+            $changedWith->save();
+            $experience->save();*/
+            return Response::json(['status' => true, 'message' => 'Education order updates']);
+        }
+        else{
+            return Response::json(['status' => false, 'message' => 'Education with new order not found']);
+        }
     }
 }

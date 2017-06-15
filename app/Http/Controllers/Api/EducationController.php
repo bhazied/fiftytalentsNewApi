@@ -135,8 +135,8 @@ class EducationController extends Controller
             $old = ['order' => $oldOrder];
             $new = ['order' => $newOrder];
            // dd($education->id, $new, $changedWith->id, $old);
-            $this->educationRepository->update($new, $education->id, $this->educationRepository->getModelKeyName());
-            $this->educationRepository->update($old, $changedWith->id, $this->educationRepository->getModelKeyName());
+            $this->educationRepository->update($new, $education->id);
+            $this->educationRepository->update($old, $changedWith->id);
             return Response::json(['status' => true, 'message' => 'Education order updates']);
         }
         else{
