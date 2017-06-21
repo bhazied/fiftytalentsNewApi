@@ -55,7 +55,6 @@ class RecommendationController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -101,7 +100,6 @@ class RecommendationController extends Controller
      */
     public function edit(Recommendation $recommendation)
     {
-        //
     }
 
     /**
