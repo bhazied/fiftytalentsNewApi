@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Model\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Psr\Http\Message\ServerRequestInterface;
 use Laravel\Passport\Http\Controllers\AccessTokenController;
@@ -23,7 +24,6 @@ class CustomAccessTokenController extends AccessTokenController
         $httpRequest = request();
         
         if ($httpRequest->grant_type == 'password') {
-            $user = User::where('email', $httpRequest->username)->first();
             //if ($user->enabled) {
                 return $this->issueToken($request);
            /* } else {

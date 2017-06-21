@@ -75,6 +75,8 @@ class ApiRegisterController extends Controller
         return Route::dispatch($proxy);
     }
 
+    
+
     /**
      * Create a new user instance after a valid registration.
      *

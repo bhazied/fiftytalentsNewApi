@@ -150,10 +150,6 @@ class ExperienceController extends Controller
             $this->experienceRepository->update($new, $experience);
             $this->experienceRepository->update($old, $changedWith);
 
-            /*$changedWith->order = $oldOrder;
-            $experience->order = $newOrder;
-            $changedWith->save();
-            $experience->save();*/
             return Response::json(['status' => true, 'message' => 'Education order updates']);
         }
         else{

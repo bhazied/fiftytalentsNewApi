@@ -66,7 +66,7 @@ Anonyme et rapide, notre concept vous permet de choisir les entreprises avec qui
 					</tr>
 					<tr>
 						<td valign="middle" width="20" align="center">
-							{{-- link_to($url, 'Editer votre profil', array('id' => 'myButton', 'style' => 'background-color:#e64e66;color:#FFFFFF;display:inherit;width:108px;line-height: 2;vertical-align: middle;font-size: 15px;text-decoration: none')) --}}
+							{{ link_to($url, 'Editer votre profil', array('id' => 'myButton', 'style' => 'background-color:#e64e66;color:#FFFFFF;display:inherit;width:108px;line-height: 2;vertical-align: middle;font-size: 15px;text-decoration: none')) }}
 						</td>
 					</tr>
                 </table>
@@ -95,7 +95,7 @@ Anonyme et rapide, notre concept vous permet de choisir les entreprises avec qui
 					</tr>
 					<tr>
 						<td valign="middle" width="20" align="center">
-							{{-- link_to(LaravelLocalization::getLocalizedURL(null, 'home/share'), 'Partager', array('id' => 'myButton', 'style' => 'background-color:#e64e66;color:#FFFFFF;display:inherit;width:108px;line-height: 2;vertical-align: middle;font-size: 15px;text-decoration: none')) --}}
+							{{ link_to('home/share', 'Partager', array('id' => 'myButton', 'style' => 'background-color:#e64e66;color:#FFFFFF;display:inherit;width:108px;line-height: 2;vertical-align: middle;font-size: 15px;text-decoration: none')) }}
 						</td>
 					</tr>
                 </table>
