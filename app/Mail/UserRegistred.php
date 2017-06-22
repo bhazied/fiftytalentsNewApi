@@ -7,6 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\URL;
 
 class UserRegistred extends Mailable
 {
@@ -35,7 +36,7 @@ class UserRegistred extends Mailable
     {
         return $this->view('emails.register.registerCandidate')
             ->subject(trans('register.register_email_subject'))
-            ->with(['subscriber' => $this->subscriber])
+            ->with(['subscriber' => $this->subscriber, 'url' => URL::to('/')])
             ->attach(
                 public_path().'/packages/CGV_Fifty_Talents.pdf',
                 ['as' => 'CGV_Fifty_Talents.pdf',  'mime' => 'application/pdf',]

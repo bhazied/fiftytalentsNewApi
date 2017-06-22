@@ -12,6 +12,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
@@ -59,20 +60,28 @@ class ApiRegisterController extends Controller
         if($team){
             return Response::json(['error' => trans('register.team_exist')]);
         }
-        $data = $request->except(['phone', 'cgu_candidate', 'job_id']);
-        $user = $this->create($data);
-        $dataProfile = $request->only(['phone', 'job_id']);
-        $dataProfile['subscriber_id'] = $user->id;
-        $this->profileCreate($dataProfile);
-        event(new Registered($user));
-        $user->notify(new registredUser());
-        $request->request->add([
-            'username' => $user->email,
-            'password' => $data['password']
-        ]);
-        $locale = app()->getLocale();
-        $proxy = Request::create($locale.'/api/candidate/auth', 'POST');
-        return Route::dispatch($proxy);
+        try{
+            DB::beginTransaction();
+            $data = $request->except(['phone', 'cgu_candidate', 'job_id']);
+            $user = $this->create($data);
+            $dataProfile = $request->only(['phone', 'job_id']);
+            $dataProfile['subscriber_id'] = $user->id;
+            $this->profileCreate($dataProfile);
+            event(new Registered($user));
+            $user->notify(new registredUser());
+            $request->request->add([
+                'username' => $user->email,
+                'password' => $data['password']
+            ]);
+            $locale = app()->getLocale();
+            $proxy = Request::create($locale.'/api/candidate/auth', 'POST');
+            DB::commit();
+            return Route::dispatch($proxy);
+        }
+        catch (\Exception $ex){
+            DB::rollback();
+            return Response::json(['status' => false, 'message' => 'Registration error']);
+        }
     }
 
     
