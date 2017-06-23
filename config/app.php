@@ -251,7 +251,9 @@ return [
             ]
         ]
     ],
-
+    'reset_password' => [
+        'password_length' => 10
+    ],
     'register' => [
         'token_tll' => 88400
     ]

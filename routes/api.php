@@ -41,4 +41,5 @@ Route::resource('jobs', 'Api\JobController', ['only' => 'index']);
 Route::resource('departements', 'Api\DepartmentController', ['only' => 'index']);
 Route::resource('skills', 'Api\SkillController', ['only' => 'index']);
 Route::resource('states', 'Api\StateController', ['only' => 'index']);
+Route::post('reset_password', 'Auth\SubscriberResetPassword@sendResetLinkEmail');
 
