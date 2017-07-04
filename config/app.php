@@ -1,5 +1,6 @@
 <?php
 
+
 return [
     
     /*
@@ -124,6 +125,8 @@ return [
 
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
+
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
@@ -237,6 +240,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        'UserPath' => App\Facade\UserPath::class,
     ],
 
     'repository' => [

@@ -34,6 +34,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::resource('experiences', 'Api\ExperienceController');
     Route::put('experiences/order/{experience}', 'Api\ExperienceController@order')->name('experiences.order');
     Route::resource('recommendations', 'Api\RecommendationController');
+    Route::post('uploadcv', 'Api\UploadController@CvUpload')->name('uploadcv');
+    Route::post('uploadavatar', 'Api\UploadController@avatarUpload')->name('uploadavatar');
 });
 
 Route::resource('countries', 'Api\CountryController', ['only' => 'index']);

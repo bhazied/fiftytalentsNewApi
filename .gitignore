@@ -8,6 +8,7 @@
 /.vagrant
 Homestead.json
 Homestead.yaml
+/public/data
 /public/uploads
 /public/uploads/*
 npm-debug.log
