@@ -16,6 +16,12 @@ return array(
     */
 
     'driver' => 'gd',
-    'thumbs' => ['s' => '100', 'm' => '200', 'l' => '300']
+    'path' => 'uploads',
+    'real_path' => 'data',
+    'resolutions' => [
+        'small' => array('150', '150'),
+        'medium' => array('300', '300'),
+        'large' => array('500', '500')
+        ],
 
 );

@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\UploadAvatarRequest;
 use App\Http\Requests\UploadCvRequest;
+use App\Jobs\avatarJob;
 use App\Repositories\CandidateProfileRepository;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -45,22 +47,28 @@ class UploadController extends Controller
     public function avatarUpload(UploadAvatarRequest $request)
     {
         $basePathUpload = $this->getBasePathUpload('avatar');
-        $image = $request->file('avatar');
-        if(!file_exists($basePathUpload)){
-            File::makeDirectory($basePathUpload, 0777, true);
-        }
-        $moved = $image->move($basePathUpload, $image->getClientOriginalName());
-        if($moved){
-            $fileinfo = [
-                'filename' => $moved->getBasename(),
-                'path' => $this->getRelativePath('avatar')
-            ];
-            return Response::json(['status' => true, 'result'=>
-                ['message' => 'Importation de votre avatar réussie', 'file' => $fileinfo]
-            ]);
+        if($request->hasFile('avatar')){
+            $image = $request->file('avatar');
+            if(!file_exists($basePathUpload)){
+                File::makeDirectory($basePathUpload, 0777, true);
+            }
+            $moved = $image->move($basePathUpload, $image->getClientOriginalName());
+            if($moved){
+                $avatarJOb = new avatarJob($image->getClientOriginalName(),  $this->getBasePathUpload('avatar'), Auth::user());
+                $avatarJOb->delay(Carbon::now()->addSecond(5));
+                dispatch($avatarJOb);
+                $fileinfo = [
+                    'filename' => $moved->getBasename(),
+                    'path' => $this->getRelativePath('avatar')
+                ];
+                return Response::json(['status' => true, 'result'=>
+                    ['message' => 'Importation de votre avatar réussie', 'file' => $fileinfo]
+                ]);
+            }
+
+            return Response::json(['status' => false, 'message' => 'Error importation Avatar']);
         }
 
-        return Response::json(['status' => false, 'message' => 'Error importation Avatar']);
     }
 
     private function getBasePathUpload($type){
@@ -69,6 +77,6 @@ class UploadController extends Controller
 
     private function getRelativePath($type){
         $user = Auth::user();
-        return 'data'.DIRECTORY_SEPARATOR.getCustomerBaseDirectory($user->salt).DIRECTORY_SEPARATOR.$type;
+        return config('image.real_path') .DIRECTORY_SEPARATOR.getCustomerBaseDirectory($user->salt).$type;
     }
 }
