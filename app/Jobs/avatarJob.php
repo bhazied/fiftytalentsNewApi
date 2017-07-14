@@ -41,9 +41,8 @@ class avatarJob implements ShouldQueue
     {
         $thumbs = config('image.resolutions');
         $ext =  pathinfo($this->path.DIRECTORY_SEPARATOR.$this->fileName, PATHINFO_EXTENSION);
-        //dd($this->path.DIRECTORY_SEPARATOR.$this->fileName);
         foreach ($thumbs as $key => $resolution){
-            $savedPath = $this->path.DIRECTORY_SEPARATOR.$this->object->id.'-'.substr($key,0,1).'.'.$ext;
+            $savedPath= $this->path.DIRECTORY_SEPARATOR.$this->object->id.'-'.substr($key,0,1).'.'.$ext;
             Image::make($this->path.DIRECTORY_SEPARATOR.$this->fileName)
                 ->fit($resolution[0], $resolution[1])
                 ->save($savedPath);
