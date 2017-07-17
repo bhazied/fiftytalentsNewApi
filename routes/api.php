@@ -36,7 +36,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::resource('recommendations', 'Api\RecommendationController');
     Route::post('uploadcv', 'Api\UploadController@CvUpload')->name('uploadcv');
     Route::post('uploadavatar', 'Api\UploadController@avatarUpload')->name('uploadavatar');
-    Route::put('candidate/profile', 'Api\CandidateProfileController@update')->name('update_c_profile');
+    Route::patch('candidate/profile', 'Api\CandidateProfileController@update')->name('update_c_profile');
+    Route::put('candidate/profile', 'Api\CandidateProfileController@updateAll')->name('patch_update_c_profile');
 });
 
 Route::resource('countries', 'Api\CountryController', ['only' => 'index']);

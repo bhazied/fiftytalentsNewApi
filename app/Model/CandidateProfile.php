@@ -10,6 +10,12 @@ class CandidateProfile extends Model
 
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'skills' => 'array',
+        'skills_levels' => 'array',
+        'states' => 'array'
+    ];
+
     public function educations(){
         return $this->hasMany(Education::class, 'c_profile_id');
     }
