@@ -62,9 +62,11 @@ class ApiRegisterController extends Controller
         }
         try{
             DB::beginTransaction();
-            $data = $request->except(['phone', 'cgu_candidate', 'job_id']);
+            //$data = $request->except(['phone', 'cgv', 'job_id']);
+            //$user = $this->create($data);
+            $data = $request->except(['phone', 'cgv']);
             $user = $this->create($data);
-            $dataProfile = $request->only(['phone', 'job_id']);
+            $dataProfile = $request->only(['phone']);
             $dataProfile['subscriber_id'] = $user->id;
             $this->profileCreate($dataProfile);
             event(new Registered($user));
@@ -80,7 +82,8 @@ class ApiRegisterController extends Controller
         }
         catch (\Exception $ex){
             DB::rollback();
-            return Response::json(['status' => false, 'message' => 'Registration error']);
+            return Response::json($ex->getMessage());
+            //return Response::json(['status' => false, 'message' => 'Registration error']);
         }
     }
 
@@ -102,8 +105,8 @@ class ApiRegisterController extends Controller
 
     protected function profileCreate($data)
     {
-        $job = $this->jobRepository->find($data['job_id']);
-        $data['department_id'] = $job->department_id;
+        //$job = $this->jobRepository->find($data['job_id']);
+        //$data['department_id'] = $job->department_id;
         return $this->cProfileRepository->create($data);
     }
 }

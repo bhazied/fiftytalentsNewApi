@@ -30,11 +30,13 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
+            'first_name' => 'required',
+            'last_name' => 'required',
             'email' => 'required|string|email|max:255|unique:subscribers',
             'password' => 'required|string|min:6',
             'phone' => 'required',
-            'job_id' => 'required|exists:jobs,id',
-            'cgu_candidate' => 'required'
+           // 'job_id' => 'required|exists:jobs,id',
+            'cgv' => 'required'
         ];
     }
 }
