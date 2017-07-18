@@ -203,6 +203,11 @@ abstract class BaseRepository implements IRepository, IRepositoryCriteria
         //return $this->model = $model;
     }
 
+    public function resetModel()
+    {
+        $this->getModel();
+    }
+
 
     /**
      * @param array $attributes
@@ -221,6 +226,7 @@ abstract class BaseRepository implements IRepository, IRepositoryCriteria
      */
     public function update(array $attributes, $value, $field=null)
     {
+        $this->resetModel();
         if(is_null($field)){
             if(!$value instanceof Model){
                 $entity = $this->find($value);

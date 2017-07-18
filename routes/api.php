@@ -30,9 +30,9 @@ Route::middleware('auth:api')->get('/profile', function () {
 Route::group(['middleware' => ['auth:api']], function () {
     Route::resource('users', 'Api\UserController');
     Route::resource('educations', 'Api\EducationController');
-    Route::put('educations/order/{education}', 'Api\EducationController@order')->name('educations.order');
+    Route::post('educations/order', 'Api\EducationController@order')->name('educations.order');
     Route::resource('experiences', 'Api\ExperienceController');
-    Route::put('experiences/order/{experience}', 'Api\ExperienceController@order')->name('experiences.order');
+    Route::post('experiences/order', 'Api\ExperienceController@order')->name('experiences.order');
     Route::resource('recommendations', 'Api\RecommendationController');
     Route::post('uploadcv', 'Api\UploadController@CvUpload')->name('uploadcv');
     Route::post('uploadavatar', 'Api\UploadController@avatarUpload')->name('uploadavatar');

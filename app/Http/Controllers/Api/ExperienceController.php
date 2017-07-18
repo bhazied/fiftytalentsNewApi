@@ -9,7 +9,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
+use Mockery\CountValidator\Exception;
 
 class ExperienceController extends Controller
 {
@@ -138,7 +140,7 @@ class ExperienceController extends Controller
      * @param Experience $experience
      * @return mixed
      */
-    public function order(Request $request, Experience $experience)
+    /*public function order(Request $request, Experience $experience)
     {
         $oldOrder = $request->get('oldOrder');
         $newOrder = $request->get('newOrder');
@@ -154,6 +156,37 @@ class ExperienceController extends Controller
         }
         else{
             return Response::json(['status' => false, 'message' => 'Education with new order not found']);
+        }
+    }*/
+
+    /**
+     * @param Request $request
+     */
+    public function order(Request $request)
+    {
+        $profile = Auth::user()->profiles->first();
+        $orders = $request->get('orders');
+        $ids = array_keys($orders);
+        try{
+            DB::beginTransaction();
+            foreach ($orders as $id => $order)
+            {
+                $exp = $profile->experiences->where('id', $id)->first();
+                if(!$exp){
+                    DB::rollback();
+                    return Response::json(['status' => true, 'message' => 'keep calm']);
+                }
+                if( !$this->experienceRepository->update(['order' => $order], $id, $this->experienceRepository->getModelKeyName()) ){
+                    DB::rollback();
+                    return Response::json(['status' => false, 'message' => 'Experience not ordred totaly']);
+                }
+            }
+            DB::commit();
+            return Response::json(['status' => true, 'message' => 'Experience order updates']);
+        }catch(\Exception $ex){
+            DB::rollback();
+            return Response::json($ex->getMessage());
+            return Response::json(['status' => false, 'message' => 'Experience with new order not found']);
         }
     }
 }

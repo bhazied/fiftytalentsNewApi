@@ -25,8 +25,8 @@ class CandidateProfile extends Model
         return $this->belongsTo(Subscriber::class);
     }
 
-    public function experience()
+    public function experiences()
     {
-        return $this->belongsTo(Experience::class);
+        return $this->hasMany(Experience::class, 'c_profile_id');
     }
 }

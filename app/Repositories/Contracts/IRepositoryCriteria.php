@@ -21,4 +21,6 @@ interface IRepositoryCriteria
     public function applyCriteria();
 
     public function resetCriteria();
+
+    public function resetModel();
 }

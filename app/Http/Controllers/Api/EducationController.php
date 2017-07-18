@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 
 class EducationController extends Controller
@@ -117,7 +118,7 @@ class EducationController extends Controller
      * @param  \App\Model\Education  $education
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Education $education)
+    /*public function destroy(Education $education)
     {
         if($this->educationRepository->delete($education->id)){
             return ['status' => true, "message" => "Education deleted"];
@@ -140,6 +141,37 @@ class EducationController extends Controller
             return Response::json(['status' => true, 'message' => 'Education order updates']);
         }
         else{
+            return Response::json(['status' => false, 'message' => 'Education with new order not found']);
+        }
+    }*/
+
+    /**
+     * @param Request $request
+     */
+    public function order(Request $request)
+    {
+        $profile = Auth::user()->profiles->first();
+        $orders = $request->get('orders');
+        $ids = array_keys($orders);
+        try{
+            DB::beginTransaction();
+            foreach ($orders as $id => $order)
+            {
+                $exp = $profile->educations->where('id', $id)->first();
+                if(!$exp){
+                    DB::rollback();
+                    return Response::json(['status' => true, 'message' => 'keep calm']);
+                }
+                if( !$this->educationRepository->update(['order' => $order], $id, $this->educationRepository->getModelKeyName()) ){
+                    DB::rollback();
+                    return Response::json(['status' => false, 'message' => 'Education not ordred totaly']);
+                }
+            }
+            DB::commit();
+            return Response::json(['status' => true, 'message' => 'Education order updates']);
+        }catch(\Exception $ex){
+            DB::rollback();
+            return Response::json($ex->getMessage());
             return Response::json(['status' => false, 'message' => 'Education with new order not found']);
         }
     }
