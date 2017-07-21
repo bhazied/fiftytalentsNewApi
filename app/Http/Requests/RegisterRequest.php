@@ -36,7 +36,14 @@ class RegisterRequest extends FormRequest
             'password' => 'required|string|min:6',
             'phone' => 'required',
            // 'job_id' => 'required|exists:jobs,id',
-            'cgv' => 'required'
+            'cgv' => 'required|boolean'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'boolean' => 'The :attribute must be boolean.'
         ];
     }
 }

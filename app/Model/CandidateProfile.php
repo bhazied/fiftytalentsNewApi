@@ -13,7 +13,14 @@ class CandidateProfile extends Model
     protected $casts = [
         'skills' => 'array',
         'skills_levels' => 'array',
-        'states' => 'array'
+        'states' => 'array',
+        'favorite_skills' => 'array'
+    ];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at'
     ];
 
     public function educations(){
@@ -30,3 +37,4 @@ class CandidateProfile extends Model
         return $this->hasMany(Experience::class, 'c_profile_id');
     }
 }
+

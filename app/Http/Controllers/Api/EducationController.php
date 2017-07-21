@@ -118,33 +118,13 @@ class EducationController extends Controller
      * @param  \App\Model\Education  $education
      * @return \Illuminate\Http\Response
      */
-    /*public function destroy(Education $education)
+    public function destroy(Education $education)
     {
         if($this->educationRepository->delete($education->id)){
             return ['status' => true, "message" => "Education deleted"];
         }
         return ['status' => false, "message" => "Education not deleted"];
     }
-
-    public function order(Request $request, Education $education)
-    {
-        $oldOrder = $request->get('oldOrder');
-        $newOrder = $request->get('newOrder');
-        $profile = Auth::user()->profiles->first();
-        $changedWith = $this->educationRepository->findWhere([ ['order', '=', $newOrder],['c_profile_id', '=', $profile->id] ])->first();
-        if($changedWith) {
-            $old = ['order' => $oldOrder];
-            $new = ['order' => $newOrder];
-           // dd($education->id, $new, $changedWith->id, $old);
-            $this->educationRepository->update($new, $education->id);
-            $this->educationRepository->update($old, $changedWith->id);
-            return Response::json(['status' => true, 'message' => 'Education order updates']);
-        }
-        else{
-            return Response::json(['status' => false, 'message' => 'Education with new order not found']);
-        }
-    }*/
-
     /**
      * @param Request $request
      */

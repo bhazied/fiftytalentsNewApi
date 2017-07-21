@@ -134,30 +134,7 @@ class ExperienceController extends Controller
         }
         return ['status' => false, "message" => "Experience not deleted"];
     }
-
-    /**
-     * @param Request $request
-     * @param Experience $experience
-     * @return mixed
-     */
-    /*public function order(Request $request, Experience $experience)
-    {
-        $oldOrder = $request->get('oldOrder');
-        $newOrder = $request->get('newOrder');
-        $profile = Auth::user()->profiles->first();
-        $changedWith = $this->experienceRepository->findWhere([ ['order', '=', $newOrder],['c_profile_id', '=', $profile->id] ])->first();
-        if(!is_null($changedWith)) {
-            $old = ['order' => $oldOrder];
-            $new = ['order' => $newOrder];
-            $this->experienceRepository->update($new, $experience);
-            $this->experienceRepository->update($old, $changedWith);
-
-            return Response::json(['status' => true, 'message' => 'Education order updates']);
-        }
-        else{
-            return Response::json(['status' => false, 'message' => 'Education with new order not found']);
-        }
-    }*/
+    
 
     /**
      * @param Request $request

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\updateProfileRequest;
 use App\Services\CandidateProfileService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -62,6 +63,12 @@ class CandidateProfileController extends Controller
             if($request->has('synthesis')){
                 $response['synthesis'] = $this->candidateProfileService->saveSynthesis($request->get('synthesis'), $profile);
             }
+            if($request->has('favorite_skills')){
+                $response['favorite_skills'] = $this->candidateProfileService->saveFavoriteSkills($request->get('favorite_skills'), $profile);
+            }
+            if($request->has('disponibility_date')){
+                $response['disponibility_date'] = $this->candidateProfileService->saveDisponibilityDate($request->get('disponibility_date'), $profile);
+            }
             return Response::json($response);
         }catch (\Exception $ex){
             //return Response::json(['status' => false, 'message' => 'update error']);
@@ -115,6 +122,12 @@ class CandidateProfileController extends Controller
             }
             if($request->has('title')){
                 $data['title'] = $request->get('title');
+            }
+            if($request->has('favorite_skills')){
+                $data['favorite_skills'] = json_encode($request->get('favorite_skills'));
+            }
+            if($request->has('disponibility_date')){
+                $date['disponibility_date'] = Carbon::parse($request->get('disponibility_date'));
             }
             if(
                 $this->candidateProfileService->updateAll($data, $profile) &&

@@ -9,6 +9,7 @@ use App\Repositories\DepartmentRepository;
 use App\Repositories\JobRepository;
 use App\Repositories\SkillRepository;
 use App\Repositories\SubscriberRepository;
+use Carbon\Carbon;
 
 class CandidateProfileService
 {
@@ -146,6 +147,24 @@ class CandidateProfileService
     public function saveSynthesis($synthesis, CandidateProfile $profile)
     {
         return $this->updatePatch(['synthesis' => $synthesis], $profile);
+    }
+
+    /**
+     * @param $favoriteSkills
+     * @param CandidateProfile $profile
+     * @return bool
+     */
+    public function saveFavoriteSkills($favoriteSkills, CandidateProfile $profile)
+    {
+        $favoriteSkills = json_encode($favoriteSkills);
+        return $this->updatePatch(['favorite_skills' => $favoriteSkills], $profile);
+    }
+
+    public function saveDisponibilityDate($disponibility, CandidateProfile $profile)
+    {
+        $disponibility = Carbon::parse($disponibility);
+        $disponibility->setTimezone(config('app.timezone'));
+        return $this->updatePatch(['disponibility_date' => $disponibility], $profile);
     }
 
     /**
