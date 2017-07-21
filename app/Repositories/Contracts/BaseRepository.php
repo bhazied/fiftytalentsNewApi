@@ -52,6 +52,11 @@ abstract class BaseRepository implements IRepository, IRepositoryCriteria
     /**
      * @var array
      */
+    protected $createFiealds = [];
+
+    /**
+     * @var array
+     */
     private $namedCriteria = [];
 
     /**

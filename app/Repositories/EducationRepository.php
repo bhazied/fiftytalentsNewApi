@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class EducationRepository extends BaseRepository
 {
+    
+    protected $createFiealds = ['school', 'graduate', 'specialization', 'graduation_year', 'c_profile_id'];
 
     /**
      * init the model with we want to use
