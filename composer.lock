@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7c1179a2844ffb2ab88639e0e1c96026",
-    "content-hash": "9af82dcb7dc56d6b8a410f391d72eb88",
+    "hash": "d110503db492b1f10e92e8bb273128aa",
+    "content-hash": "5d55d9f05e9279cccd9805c145acb910",
     "packages": [
         {
             "name": "barryvdh/laravel-cors",
@@ -4113,16 +4113,16 @@
         },
         {
             "name": "phpro/grumphp",
-            "version": "v0.11.5",
+            "version": "v0.11.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpro/grumphp.git",
-                "reference": "e3a594b028152edd6ee5dcc33f8682d126d72587"
+                "reference": "c57aeff808b4b5a7da84a432d3b39ef347dcba02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpro/grumphp/zipball/e3a594b028152edd6ee5dcc33f8682d126d72587",
-                "reference": "e3a594b028152edd6ee5dcc33f8682d126d72587",
+                "url": "https://api.github.com/repos/phpro/grumphp/zipball/c57aeff808b4b5a7da84a432d3b39ef347dcba02",
+                "reference": "c57aeff808b4b5a7da84a432d3b39ef347dcba02",
                 "shasum": ""
             },
             "require": {
@@ -4130,7 +4130,7 @@
                 "composer/composer": "^1.0",
                 "doctrine/collections": "~1.2",
                 "gitonomy/gitlib": "~1.0",
-                "monolog/monolog": "~1.17",
+                "monolog/monolog": "~1.16",
                 "ocramius/proxy-manager": "~0.4|~1.0|~2.0",
                 "php": ">=5.6.0",
                 "seld/jsonlint": "~1.1",
@@ -4169,6 +4169,7 @@
                 "nikic/php-parser": "Lets GrumPHP run static analyses through your PHP files.",
                 "phing/phing": "Lets GrumPHP run your automated PHP tasks.",
                 "phpmd/phpmd": "Lets GrumPHP sort out the mess in your code",
+                "phpmnd/phpmnd": "Lets GrumPHP help you detect magic numbers in PHP code.",
                 "phpspec/phpspec": "Lets GrumPHP spec your code.",
                 "phpstan/phpstan": "Lets GrumPHP discover bugs in your code without running it.",
                 "phpunit/phpunit": "Lets GrumPHP run your unit tests.",
@@ -4205,7 +4206,7 @@
                 }
             ],
             "description": "A composer plugin that enables source code quality checks.",
-            "time": "2017-04-28 12:04:28"
+            "time": "2017-05-31 17:49:48"
         },
         {
             "name": "phpspec/prophecy",
