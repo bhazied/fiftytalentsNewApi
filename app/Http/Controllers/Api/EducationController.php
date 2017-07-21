@@ -103,6 +103,10 @@ class EducationController extends Controller
     public function update(Request $request, Education $education)
     {
         try{
+            $myEducations = Auth::user()->profiles->first()->educations();
+            if(!$myEducations->get()->contains($education)){
+                return ['status' => false, "message" => "Not authorize to delete this education"];
+            }
            $data = $request->all();
             $this->educationRepository->update($data, $education->id, $this->educationRepository->getModelKeyName());
             return Response::json(['status' => true, 'result' => $this->educationRepository->find($education->id) ]);
@@ -120,6 +124,10 @@ class EducationController extends Controller
      */
     public function destroy(Education $education)
     {
+        $myEducations = Auth::user()->profiles->first()->educations();
+        if(!$myEducations->get()->contains($education)){
+            return ['status' => false, "message" => "Not authorize to delete this education"];
+        }
         if($this->educationRepository->delete($education->id)){
             return ['status' => true, "message" => "Education deleted"];
         }

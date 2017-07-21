@@ -109,6 +109,10 @@ class ExperienceController extends Controller
     public function update(Request $request, Experience $experience)
     {
         try{
+            $myExperiences = Auth::user()->profiles->first()->experiences();
+            if(!$myExperiences->get()->contains($experience)){
+                return ['status' => false, "message" => "Not authorize to delete this experience"];
+            }
             $data = $request->all();
             $result = $this->experienceRepository->update($data, $experience->id, $this->experienceRepository->getModelKeyName());
             if($result){
@@ -129,12 +133,16 @@ class ExperienceController extends Controller
      */
     public function destroy(Experience $experience)
     {
+        $myExperiences = Auth::user()->profiles->first()->experiences();
+        if(!$myExperiences->get()->contains($experience)){
+            return ['status' => false, "message" => "Not authorize to delete this experience"];
+        }
         if($this->experienceRepository->delete($experience->id)){
             return ['status' => true, "message" => "Experience deleted"];
         }
         return ['status' => false, "message" => "Experience not deleted"];
     }
-    
+
 
     /**
      * @param Request $request
