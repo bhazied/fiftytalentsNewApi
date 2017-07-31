@@ -9,6 +9,7 @@
         "barryvdh/laravel-cors": "^0.9.2",
         "dimsav/laravel-translatable": "^7.0",
         "intervention/image": "^2.3",
+        "laracasts/presenter": "^0.2.1",
         "laravel/framework": "5.4.*",
         "laravel/passport": "^2.0",
         "laravel/tinker": "~1.0",

@@ -143,9 +143,11 @@ class CandidateProfileController extends Controller
         }
     }
 
-    public function getPmrofile(Request $request)
+    public function getProfile(Request $request)
     {
         try {
+            $profile = Auth::user()->profiles->first();
+            dd($profile);
         } catch (\Exception $ex) {
             return Response::json($ex->getMessage());
         }

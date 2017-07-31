@@ -38,6 +38,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('uploadavatar', 'Api\UploadController@avatarUpload')->name('uploadavatar');
     Route::patch('candidate/profile', 'Api\CandidateProfileController@update')->name('update_c_profile');
     Route::put('candidate/profile', 'Api\CandidateProfileController@updateAll')->name('patch_update_c_profile');
+    Route::get('candidate/profile', 'Api\CandidateProfileController@getProfile')->name('get_profile');
 });
 
 Route::resource('countries', 'Api\CountryController', ['only' => 'index']);
@@ -46,4 +47,3 @@ Route::resource('departements', 'Api\DepartmentController', ['only' => 'index'])
 Route::resource('skills', 'Api\SkillController', ['only' => 'index']);
 Route::resource('states', 'Api\StateController', ['only' => 'index']);
 Route::post('reset_password', 'Auth\SubscriberResetPassword@sendResetLinkEmail');
-
