@@ -43,6 +43,7 @@ class ApiLoginController extends Controller
             return $responseAsArray;
         }
         $currentUser = \App\Model\Subscriber::where('email', $request->get('username'))->first();
+        //dd($currentUser);
         $currentUser =  ['user' => $this->parseUser($currentUser)];
         $endResponse = array_merge($responseAsArray, $currentUser);
         return $endResponse;
@@ -74,6 +75,14 @@ class ApiLoginController extends Controller
             'last_name' => $user->last_name,
             'last_connexion' => $user->last_connexion,
             'email' => $user->email,
+            'last_connexion' => $user->last_connexion,
+            'step' => $user->step,
+            'status' => $user->status,
+            'approval' => $user->approval,
+            'locked' => $user->locked,
+            'activated' => $user->activated,
+            'expired' => $user->expired,
+            'profile_type' => ($user->profile_type == 'C') ? "candidate" : "enterprise"
         ];
     }
 }
