@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\updateProfileRequest;
+use App\Model\CandidateProfile;
 use App\Services\CandidateProfileService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -147,9 +148,50 @@ class CandidateProfileController extends Controller
     {
         try {
             $profile = Auth::user()->profiles->first();
-            dd($profile);
+            $cProfile = [
+                'id' => $profile->id,
+                'skills' => $profile->present()->getSkills,
+                'experience' => $profile->experiences,
+                'educations' => $profile->educations,
+                'phone' => $profile->phone,
+                'department' => $profile->department,
+                'job' => $profile->job,
+                'favorite_salary' => $profile->favorite_salary,
+                'disponibility_date' =>  $this->getReelTimeDisponibility($profile),
+                'states' => $profile->present()->getStates,
+                'web_presence' => $profile->present()->getWebPresence,
+                'synthesis' => $profile->synthesis,
+                'mobile' => $profile->mobile,
+                'profile' => $profile->profile,
+                'cv' => $profile->present()->getCV,
+                'avatar' => $profile->present()->getAvatar,
+                'created_at' => $profile->created_at,
+                'updated_at' => $profile->updated_at
+            ];
+            return Response::json($cProfile);
         } catch (\Exception $ex) {
             return Response::json($ex->getMessage());
         }
+    }
+
+    /**
+     * @param $profile
+     * @return string
+     * get the disponibility date in reel time
+     * example : disponible in 3 month -- disponible in 20 days ...
+     */
+    private function getReelTimeDisponibility($profile)
+    {
+        $now = Carbon::now();
+        $disponility = Carbon::parse($profile->disponibility_date);
+        $disponilityDays = $disponility->diffInDays($now);
+        $disponilityIn = null;
+        if ($disponilityDays > 30) {
+            return trans_choice('profile.disponibility_month', $disponility->diffInMonths($now), ['availability' => $disponility->diffInMonths($now)]);
+        }
+        if ($disponilityDays > 365) {
+            return trans_choice('profile.disponibility_year', $disponility->diffInYears($now), ['availability' => $disponility->diffInYears($now)]);
+        }
+        return trans_choice('profile.disponibility_day', $disponility->diffInDays($now), ['availability' => $disponility->diffInDays($now)]);
     }
 }

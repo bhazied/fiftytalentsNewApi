@@ -11,11 +11,13 @@ class Job extends Model
 
     public $translatedAttributes = ['title', 'description'];
 
-    public function jobTranslations(){
+    public function jobTranslations()
+    {
         return $this->hasMany(JobTranslation::class);
     }
 
-    public function department(){
+    public function department()
+    {
         return $this->belongsTo(Department::class);
     }
 }

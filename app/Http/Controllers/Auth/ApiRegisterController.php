@@ -46,7 +46,7 @@ class ApiRegisterController extends Controller
      * @param CandidateProfileRepository $cProfileRepository
      * @param JobRepository $jobRepository
      */
-    public  function __construct(SubscriberRepository $subscriberRepository, TeamRepository $teamRepository, CandidateProfileRepository $cProfileRepository, JobRepository $jobRepository)
+    public function __construct(SubscriberRepository $subscriberRepository, TeamRepository $teamRepository, CandidateProfileRepository $cProfileRepository, JobRepository $jobRepository)
     {
         $this->subscriberRepository = $subscriberRepository;
         $this->teamRepository = $teamRepository;
@@ -57,10 +57,10 @@ class ApiRegisterController extends Controller
     public function register(RegisterRequest $request)
     {
         $team = $this->teamRepository->findBy('email', $request->get('email'))->first();
-        if($team){
+        if ($team) {
             return Response::json(['error' => trans('register.team_exist')]);
         }
-        try{
+        try {
             DB::beginTransaction();
             //$data = $request->except(['phone', 'cgv', 'job_id']);
             //$user = $this->create($data);
@@ -79,8 +79,7 @@ class ApiRegisterController extends Controller
             $proxy = Request::create($locale.'/api/candidate/auth', 'POST');
             DB::commit();
             return Route::dispatch($proxy);
-        }
-        catch (\Exception $ex){
+        } catch (\Exception $ex) {
             DB::rollback();
             return Response::json($ex->getMessage());
             //return Response::json(['status' => false, 'message' => 'Registration error']);

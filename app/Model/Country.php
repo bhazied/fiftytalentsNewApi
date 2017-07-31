@@ -11,12 +11,13 @@ class Country extends Model
 
     public $translatedAttributes = ['name'];
 
-    public function countryTranslations(){
+    public function countryTranslations()
+    {
         return $this->hasMany(CountryTranslation::class);
     }
 
-    public function states(){
+    public function states()
+    {
         return $this->hasMany(State::class);
     }
-
 }

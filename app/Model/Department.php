@@ -11,11 +11,13 @@ class Department extends Model
 
     public $translatedAttributes = ['title'];
 
-    public function departmentTranslations(){
+    public function departmentTranslations()
+    {
         return $this->hasMany(DepartmentTranslation::class);
     }
 
-    public function jobs(){
+    public function jobs()
+    {
         return $this->hasMany(Job::class);
     }
 }

@@ -27,15 +27,16 @@ class UploadController extends Controller
     {
         $basePathUpload = $this->getBasePathUpload('cv');
         $file = $request->file('file');
-        if(!file_exists($basePathUpload)){
+        if (!file_exists($basePathUpload)) {
             File::makeDirectory($basePathUpload, 0777, true);
         }
         $moved = $file->move($basePathUpload, $file->getClientOriginalName());
-        if($moved){
+        if ($moved) {
             $fileinfo = [
                 'filename' => $moved->getBasename(),
                 'path' => $this->getRelativePath('cv')
             ];
+            $this->saveCv($moved->getBasename());
             return Response::json(['status' => true, 'result'=>
                 ['message' => 'Importation de votre cv réussie', 'file' => $fileinfo]
             ]);
@@ -47,14 +48,14 @@ class UploadController extends Controller
     public function avatarUpload(UploadAvatarRequest $request)
     {
         $basePathUpload = $this->getBasePathUpload('avatar');
-        if($request->hasFile('avatar')){
+        if ($request->hasFile('avatar')) {
             $image = $request->file('avatar');
-            if(!file_exists($basePathUpload)){
+            if (!file_exists($basePathUpload)) {
                 File::makeDirectory($basePathUpload, 0777, true);
             }
             $moved = $image->move($basePathUpload, $image->getClientOriginalName());
-            if($moved){
-                $avatarJOb = new avatarJob($image->getClientOriginalName(),  $this->getBasePathUpload('avatar'), Auth::user());
+            if ($moved) {
+                $avatarJOb = new avatarJob($image->getClientOriginalName(), $this->getBasePathUpload('avatar'), Auth::user());
                 $avatarJOb->delay(Carbon::now()->addSecond(5));
                 dispatch($avatarJOb);
                 $fileinfo = [
@@ -68,15 +69,22 @@ class UploadController extends Controller
 
             return Response::json(['status' => false, 'message' => 'Error importation Avatar']);
         }
-
     }
 
-    private function getBasePathUpload($type){
+    private function getBasePathUpload($type)
+    {
         return public_path($this->getRelativePath($type));
     }
 
-    private function getRelativePath($type){
+    private function getRelativePath($type)
+    {
         $user = Auth::user();
         return config('image.real_path') .DIRECTORY_SEPARATOR.getCustomerBaseDirectory($user->salt).$type;
+    }
+
+    private function saveCv($cv_filename)
+    {
+        $profile = Auth::user()->profiles->first();
+        $this->candidateProfileRepository->update(['cv_filename' => $cv_filename ], $profile->id, $this->candidateProfileRepository->getModelKeyName());
     }
 }

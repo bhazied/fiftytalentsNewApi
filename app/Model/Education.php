@@ -10,7 +10,8 @@ class Education extends Model
 
     protected $guarded = ['id'];
 
-    public function CandidateProfile(){
+    public function CandidateProfile()
+    {
         return $this->belongsTo(CandidateProfile::class, 'c_profile_id');
     }
 }

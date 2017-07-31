@@ -7,16 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class State extends Model
 {
-
     use Translatable;
 
     public $translatedAttributes = ['name'];
 
-    public function state_translations(){
+    public function state_translations()
+    {
         return  $this->hasMany(StateTranslation::class);
     }
 
-    public function country(){
+    public function country()
+    {
         return $this->belongsTo(Country::class);
     }
 }

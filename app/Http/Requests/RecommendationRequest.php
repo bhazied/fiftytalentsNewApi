@@ -22,8 +22,7 @@ class RecommendationRequest extends BaseFormrequest
                 'email' => 'required|email',
                 'c_profile_id' => 'required|numeric',
             ]);
-        }
-        elseif (Str::lower($this->method()) == 'put' || Str::lower($this->method()) == 'patch'){
+        } elseif (Str::lower($this->method()) == 'put' || Str::lower($this->method()) == 'patch') {
             return array_merge(parent::rules(), [
                 'name' => 'required',
                 'function' => 'required',

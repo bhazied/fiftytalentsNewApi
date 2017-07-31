@@ -38,11 +38,11 @@ class ExperienceController extends Controller
     {
         $subscriber = Auth()->user();
         $inlineCount =  $this->experienceRepository->pushCriteria(App::make('\App\Repositories\Criteria\RequestCriteria'))
-            ->findBy('c_profile_id',$subscriber->profiles->first()->id)
+            ->findBy('c_profile_id', $subscriber->profiles->first()->id)
             ->count();
         $results = $this->experienceRepository->pushCriteria(App::make('\App\Repositories\Criteria\RequestCriteria'))
             ->pushCriteria(App::make('\App\Repositories\Criteria\PagerCriteria'))
-            ->findBy('c_profile_id',$subscriber->profiles->first()->id);
+            ->findBy('c_profile_id', $subscriber->profiles->first()->id);
         return Response::json(compact('inlineCount', 'results'));
     }
 
@@ -64,15 +64,14 @@ class ExperienceController extends Controller
      */
     public function store(ExperienceRequest $request)
     {
-        try{
+        try {
             $data = $request->all();
             $subscriber = Auth()->user();
-            $orderCount = $this->experienceRepository->findBy('c_profile_id',$subscriber->profiles->first()->id)->count();
+            $orderCount = $this->experienceRepository->findBy('c_profile_id', $subscriber->profiles->first()->id)->count();
             $data['order'] = $orderCount+1;
             $experience =  $this->experienceRepository->create($data);
             return Response::json(['status' => true, 'result' => $experience]);
-        }
-        catch (\Exception $ex){
+        } catch (\Exception $ex) {
             return Response::json(['status' => false, 'message' => 'Experience add error']);
         }
     }
@@ -108,19 +107,18 @@ class ExperienceController extends Controller
      */
     public function update(Request $request, Experience $experience)
     {
-        try{
+        try {
             $myExperiences = Auth::user()->profiles->first()->experiences();
-            if(!$myExperiences->get()->contains($experience)){
+            if (!$myExperiences->get()->contains($experience)) {
                 return ['status' => false, "message" => "Not authorize to delete this experience"];
             }
             $data = $request->all();
             $result = $this->experienceRepository->update($data, $experience->id, $this->experienceRepository->getModelKeyName());
-            if($result){
+            if ($result) {
                 return Response::json(['status' => true, 'result' => $this->experienceRepository->find($experience->id) ]);
             }
             return Response::json(['status' => false, 'message' => 'Experience update error' ]);
-        }
-        catch (\Exception $ex){
+        } catch (\Exception $ex) {
             return Response::json(['status' => false, 'message' => 'Experience update error']);
         }
     }
@@ -134,10 +132,10 @@ class ExperienceController extends Controller
     public function destroy(Experience $experience)
     {
         $myExperiences = Auth::user()->profiles->first()->experiences();
-        if(!$myExperiences->get()->contains($experience)){
+        if (!$myExperiences->get()->contains($experience)) {
             return ['status' => false, "message" => "Not authorize to delete this experience"];
         }
-        if($this->experienceRepository->delete($experience->id)){
+        if ($this->experienceRepository->delete($experience->id)) {
             return ['status' => true, "message" => "Experience deleted"];
         }
         return ['status' => false, "message" => "Experience not deleted"];
@@ -152,23 +150,22 @@ class ExperienceController extends Controller
         $profile = Auth::user()->profiles->first();
         $orders = $request->get('orders');
         $ids = array_keys($orders);
-        try{
+        try {
             DB::beginTransaction();
-            foreach ($orders as $id => $order)
-            {
+            foreach ($orders as $id => $order) {
                 $exp = $profile->experiences->where('id', $id)->first();
-                if(!$exp){
+                if (!$exp) {
                     DB::rollback();
                     return Response::json(['status' => true, 'message' => 'keep calm']);
                 }
-                if( !$this->experienceRepository->update(['order' => $order], $id, $this->experienceRepository->getModelKeyName()) ){
+                if (!$this->experienceRepository->update(['order' => $order], $id, $this->experienceRepository->getModelKeyName())) {
                     DB::rollback();
                     return Response::json(['status' => false, 'message' => 'Experience not ordred totaly']);
                 }
             }
             DB::commit();
             return Response::json(['status' => true, 'message' => 'Experience order updates']);
-        }catch(\Exception $ex){
+        } catch (\Exception $ex) {
             DB::rollback();
             return Response::json($ex->getMessage());
             return Response::json(['status' => false, 'message' => 'Experience with new order not found']);

@@ -44,9 +44,9 @@ class SubscriberResetPassword extends Controller
      */
     public function sendResetLinkEmail(SubscribeResetPasswordRequest $request)
     {
-        try{
+        try {
             $subscriber = $this->subscriberRepository->findBy('email', $request->get('email'))->first();
-            if(!$subscriber){
+            if (!$subscriber) {
                 return Response::json(['status' => false, 'message' => 'no subscriber with this e-mail']);
             }
             $password = Str::random(config('app.reset_password.password_length'));
@@ -58,11 +58,9 @@ class SubscriberResetPassword extends Controller
             $this->subscriberRepository->update(['password' => bcrypt($password)], $subscriber->id, $this->subscriberRepository->getModelKeyName());
             return Response::json(['status' => true, 'message' => 'new password sent to your email']);
             return Response::json(['status' => true, 'message' => 'Error send new password']);
-        }
-        catch(\Exception $ex){
+        } catch (\Exception $ex) {
             return Response::json(['status' => true, 'message' => $ex->getMessage()]);
             //return Response::json(['status' => true, 'message' => 'Error send new password']);
         }
     }
-
 }

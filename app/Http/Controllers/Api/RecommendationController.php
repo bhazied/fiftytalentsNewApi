@@ -40,11 +40,11 @@ class RecommendationController extends Controller
     {
         $subscriber = Auth()->user();
         $inlineCount =  $this->recommendationRepository->pushCriteria(App::make('\App\Repositories\Criteria\RequestCriteria'))
-            ->findBy('c_profile_id',$subscriber->profiles->first()->id)
+            ->findBy('c_profile_id', $subscriber->profiles->first()->id)
             ->count();
         $results = $this->recommendationRepository->pushCriteria(App::make('\App\Repositories\Criteria\RequestCriteria'))
             ->pushCriteria(App::make('\App\Repositories\Criteria\PagerCriteria'))
-            ->findBy('c_profile_id',$subscriber->profiles->first()->id);
+            ->findBy('c_profile_id', $subscriber->profiles->first()->id);
         return Response::json(compact('inlineCount', 'results'));
     }
 
@@ -65,7 +65,7 @@ class RecommendationController extends Controller
      */
     public function store(RecommendationRequest $request)
     {
-        try{
+        try {
             DB::beginTransaction();
             $data = $request->all();
             $data['salt'] = Str::random(120);
@@ -74,8 +74,7 @@ class RecommendationController extends Controller
                 ->send(new AddRecommendation(Auth::user(), $recommendation));
             DB::commit();
             return Response::json(['status' => true, 'result' => $recommendation]);
-        }
-        catch (\Exception $ex){
+        } catch (\Exception $ex) {
             DB::rollback();
             return Response::json(['status' => false, 'message' => 'Recommendation add error']);
         }
@@ -111,15 +110,14 @@ class RecommendationController extends Controller
      */
     public function update(RecommendationRequest $request, Recommendation $recommendation)
     {
-        try{
+        try {
             $data = $request->all();
             $result = $this->recommendationRepository->update($data, $recommendation->id, $this->recommendationRepository->getModelKeyName());
-            if($result){
+            if ($result) {
                 return Response::json(['status' => true, 'result' => $this->recommendationRepository->find($recommendation->id) ]);
             }
             return Response::json(['status' => false, 'message' => 'Experience update error' ]);
-        }
-        catch (\Exception $ex){
+        } catch (\Exception $ex) {
             return Response::json(['status' => false, 'message' => 'Experience update error']);
         }
     }
@@ -132,7 +130,7 @@ class RecommendationController extends Controller
      */
     public function destroy(Recommendation $recommendation)
     {
-        if($this->recommendationRepository->delete($recommendation->id)){
+        if ($this->recommendationRepository->delete($recommendation->id)) {
             return ['status' => true, "message" => "Recommendation deleted"];
         }
         return ['status' => false, "message" => "Recommendation not deleted"];

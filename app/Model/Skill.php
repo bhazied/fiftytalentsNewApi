@@ -11,7 +11,8 @@ class Skill extends Model
 
     public $translatedAttributes = ['title'];
 
-    public function skillTranslations(){
+    public function skillTranslations()
+    {
         return $this->hasMany(SkillTranslation::class);
     }
 }

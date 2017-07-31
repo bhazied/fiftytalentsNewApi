@@ -2,10 +2,16 @@
 
 namespace App\Model;
 
+use App\Presenters\CandidateProfilePresenter;
 use Illuminate\Database\Eloquent\Model;
+use Laracasts\Presenter\PresentableTrait;
 
 class CandidateProfile extends Model
 {
+    use PresentableTrait;
+
+    protected $presenter = CandidateProfilePresenter::class;
+
     protected $table = 'c_profiles';
 
     protected $guarded = ['id'];
@@ -23,7 +29,8 @@ class CandidateProfile extends Model
         'deleted_at'
     ];
 
-    public function educations(){
+    public function educations()
+    {
         return $this->hasMany(Education::class, 'c_profile_id');
     }
 
@@ -36,5 +43,14 @@ class CandidateProfile extends Model
     {
         return $this->hasMany(Experience::class, 'c_profile_id');
     }
-}
 
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function job()
+    {
+        return $this->belongsTo(Job::class);
+    }
+}
