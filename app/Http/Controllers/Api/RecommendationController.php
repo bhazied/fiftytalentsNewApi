@@ -76,7 +76,8 @@ class RecommendationController extends Controller
             return Response::json(['status' => true, 'result' => $recommendation]);
         } catch (\Exception $ex) {
             DB::rollback();
-            return Response::json(['status' => false, 'message' => 'Recommendation add error']);
+            return Response::json($ex->getMessage());
+            //return Response::json(['status' => false, 'message' => 'Recommendation add error']);
         }
     }
 
