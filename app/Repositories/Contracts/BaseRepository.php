@@ -56,6 +56,7 @@ abstract class BaseRepository implements IRepository, IRepositoryCriteria
 
     /**
      * @var array
+     * optional use for except some data comin  from request.
      */
     private $namedCriteria = [];
 

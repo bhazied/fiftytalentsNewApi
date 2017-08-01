@@ -8,6 +8,7 @@
 
 namespace App\Presenters;
 
+use App\Repositories\EnterpriseProfileRepository;
 use App\Repositories\SkillRepository;
 use App\Repositories\StateRepository;
 use Carbon\Carbon;
@@ -121,6 +122,26 @@ class CandidateProfilePresenter extends Presenter
             return $avatarArray;
         }
         return null;
+    }
+
+    public function getBannesEnterprise()
+    {
+        if (is_null($this->banned_enterprises)) {
+            return [];
+        }
+        $banneds = [];
+        foreach ($this->banned_enterprises as $banned) {
+            $enterpriseProfileRepository = resolve(EnterpriseProfileRepository::class);
+            $item =$enterpriseProfileRepository->find($banned);
+            if ($item) {
+                $banneds [] = [
+                    'id' => $item->id,
+                    'entreprise' => $item->entreprise,
+                    'website' => $item->website,
+                ];
+            }
+        }
+        return $banneds;
     }
 
     private function getBasePathUpload($type)

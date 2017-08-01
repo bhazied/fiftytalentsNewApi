@@ -171,10 +171,31 @@ class CandidateProfileService
         return $this->updatePatch(['disponibility_date' => $disponibility], $profile);
     }
 
+    /**
+     * @param $stateMobility
+     * @param CandidateProfile $profile
+     * @return bool
+     */
     public function saveStateMobility($stateMobility, CandidateProfile $profile)
     {
         $stateMobility = json_encode($stateMobility);
         return $this->updatePatch(['mobility_by_state' => $stateMobility], $profile);
+    }
+
+    public function saveBannedEntreprises($bannedEnreprises, CandidateProfile $profile)
+    {
+        if (is_null($profile->banned_enterprises)) {
+            $banneds = json_encode($bannedEnreprises);
+            return $this->updatePatch(['banned_enterprises' => $banneds], $profile);
+        }
+        $news = $profile->banned_enterprises;
+        foreach ($bannedEnreprises as $enterprise_id) {
+            if (!array_has($news, $enterprise_id)) {
+                $news[$enterprise_id] = $enterprise_id;
+            }
+        }
+        $banneds = json_encode($news);
+        return $this->updatePatch(['banned_enterprises' => $banneds], $profile);
     }
 
     /**

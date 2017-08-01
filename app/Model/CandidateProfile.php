@@ -21,7 +21,8 @@ class CandidateProfile extends Model
         'skills_levels' => 'array',
         'states' => 'array',
         'favorite_skills' => 'array',
-        'mobility_by_state' => 'array'
+        'mobility_by_state' => 'array',
+        'banned_enterprises' => 'array'
     ];
 
     protected $dates = [

@@ -73,6 +73,9 @@ class CandidateProfileController extends Controller
             if ($request->has('state_mobility')) {
                 $response['state_mobility'] = $this->candidateProfileService->saveStateMobility($request->get('state_mobility'), $profile);
             }
+            if ($request->has('banned_entreprises')) {
+                $response['banned_entreprises'] = $this->candidateProfileService->saveBannedEntreprises($request->get('banned_entreprises'), $profile);
+            }
             return Response::json($response);
         } catch (\Exception $ex) {
             //return Response::json(['status' => false, 'message' => 'update error']);
@@ -171,6 +174,7 @@ class CandidateProfileController extends Controller
                 'profile' => $profile->profile,
                 'cv' => $profile->present()->getCV,
                 'avatar' => $profile->present()->getAvatar,
+                'banned_enterprises' => $profile->present()->getBannesEnterprise,
                 'created_at' => $profile->created_at,
                 'updated_at' => $profile->updated_at
             ];
