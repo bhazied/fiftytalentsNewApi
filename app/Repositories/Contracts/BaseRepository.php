@@ -232,18 +232,16 @@ abstract class BaseRepository implements IRepository, IRepositoryCriteria
     public function update(array $attributes, $value, $field=null)
     {
         $this->resetModel();
-        if(is_null($field)){
-            if(!$value instanceof Model){
+        if (is_null($field)) {
+            if (!$value instanceof Model) {
                 $entity = $this->find($value);
-            }
-            else{
+            } else {
                 $entity = $value;
             }
             $entity->fill($attributes);
             $entity->save();
             return $entity;
-        }
-        else{
+        } else {
             return $this->model->where($field, '=', $value)->update($attributes);
         }
     }

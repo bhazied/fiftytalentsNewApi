@@ -14,7 +14,7 @@ class avatarJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private  $fileName;
+    private $fileName;
 
     private $path;
 
@@ -41,8 +41,8 @@ class avatarJob implements ShouldQueue
     {
         $thumbs = config('image.resolutions');
         $ext =  pathinfo($this->path.DIRECTORY_SEPARATOR.$this->fileName, PATHINFO_EXTENSION);
-        foreach ($thumbs as $key => $resolution){
-            $savedPath= $this->path.DIRECTORY_SEPARATOR.$this->object->id.'-'.substr($key,0,1).'.'.$ext;
+        foreach ($thumbs as $key => $resolution) {
+            $savedPath= $this->path.DIRECTORY_SEPARATOR.$this->object->id.'-'.substr($key, 0, 1).'.'.$ext;
             Image::make($this->path.DIRECTORY_SEPARATOR.$this->fileName)
                 ->fit($resolution[0], $resolution[1])
                 ->save($savedPath);

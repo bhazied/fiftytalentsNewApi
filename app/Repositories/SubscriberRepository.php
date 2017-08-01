@@ -8,7 +8,6 @@
 
 namespace App\Repositories;
 
-
 use App\Model\Subscriber;
 use App\Repositories\Contracts\BaseRepository;
 use Illuminate\Database\Eloquent\Model;

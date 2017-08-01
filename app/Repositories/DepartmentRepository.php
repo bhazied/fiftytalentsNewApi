@@ -8,7 +8,6 @@
 
 namespace App\Repositories;
 
-
 use App\Model\Department;
 use App\Repositories\Contracts\BaseRepository;
 use Illuminate\Database\Eloquent\Model;
@@ -24,5 +23,4 @@ class DepartmentRepository extends BaseRepository
     {
         return Department::class;
     }
-
 }

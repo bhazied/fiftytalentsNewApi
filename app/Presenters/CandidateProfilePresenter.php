@@ -96,24 +96,26 @@ class CandidateProfilePresenter extends Presenter
 
     public function getCv()
     {
-        //dd($this->cv_filename);
         if ($this->cv_filename) {
             if (file_exists($this->getRelativePath('cv').DIRECTORY_SEPARATOR.$this->cv_filename)) {
-                return $this->getRelativePath('cv').DIRECTORY_SEPARATOR.$this->cv_filename;
+                return $this->getRelativePath('cv').DIRECTORY_SEPARATOR.$this->cv_filename.'?'.Carbon::now()->timestamp;
             }
         }
     }
 
     public function getAvatar()
     {
-        $avatars = File::allFiles($this->getBasePathUpload('avatar'));
-        $avatarArray = [];
-        foreach ($avatars as $avatar) {
-            array_push($avatarArray,
-                $this->getRelativePath('avatar').DIRECTORY_SEPARATOR.$avatar->getFilename().'?'.Carbon::now()->timestamp
+        if (File::exists($this->getBasePathUpload('avatar'))) {
+            $avatars = File::allFiles($this->getBasePathUpload('avatar'));
+            $avatarArray = [];
+            foreach ($avatars as $avatar) {
+                array_push($avatarArray,
+                    $this->getRelativePath('avatar').DIRECTORY_SEPARATOR.$avatar->getFilename().'?'.Carbon::now()->timestamp
                 );
+            }
+            return $avatarArray;
         }
-        return $avatarArray;
+        return null;
     }
 
     private function getBasePathUpload($type)

@@ -68,7 +68,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         $locale = Request::segment(1);
         $prefix = 'api';
-        if(in_array($locale, config('translatable.locales'))){
+        if (in_array($locale, config('translatable.locales'))) {
             $prefix = $locale.'/api';
         }
         Route::prefix($prefix)

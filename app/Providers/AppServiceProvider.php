@@ -17,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(Request $request)
     {
-        if(! array_key_exists($request->segment(1), config('translatable.locales'))){
+        if (! array_key_exists($request->segment(1), config('translatable.locales'))) {
             $this->app->setLocale(config('fallback_locale'));
         }
         $this->app->setLocale($request->segment(1));

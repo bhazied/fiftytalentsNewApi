@@ -45,8 +45,7 @@ class CandidateProfileService
         DepartmentRepository $departmentRepository,
         CandidateProfileRepository $candidateProfileRepository,
         SubscriberRepository $subscriberRepository
-    )
-    {
+    ) {
         $this->skillRepository = $skillRepository;
         $this->jobRepository = $jobRepository;
         $this->departementRepository = $departmentRepository;
@@ -101,7 +100,7 @@ class CandidateProfileService
      * @param $mobility
      * @param CandidateProfile $profile
      */
-    public  function saveMobility($mobility, CandidateProfile $profile)
+    public function saveMobility($mobility, CandidateProfile $profile)
     {
         return $this->updatePatch(['mobile' => $mobility], $profile);
     }
@@ -205,12 +204,12 @@ class CandidateProfileService
      * @param $input
      * @return array
      */
-    public function formatArray($input){
+    public function formatArray($input)
+    {
         $output = [];
-        foreach ($input as $data){
+        foreach ($input as $data) {
             $output[$data] = $data;
         }
         return $output;
     }
-
 }

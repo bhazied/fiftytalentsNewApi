@@ -8,12 +8,11 @@
 
 namespace App\Repositories;
 
-
 use App\Model\Recommendation;
 use App\Repositories\Contracts\BaseRepository;
 use Illuminate\Database\Eloquent\Model;
 
-class RecommendationRepository extends  BaseRepository
+class RecommendationRepository extends BaseRepository
 {
 
     /**

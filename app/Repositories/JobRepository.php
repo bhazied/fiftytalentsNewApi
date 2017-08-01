@@ -8,14 +8,12 @@
 
 namespace App\Repositories;
 
-
 use App\Model\Job;
 use App\Repositories\Contracts\BaseRepository;
 use Illuminate\Database\Eloquent\Model;
 
 class JobRepository extends BaseRepository
 {
-
     protected $seachableField = ['title' => 'like', 'description' => 'like'];
     /**
      * init the model with we want to use
@@ -28,7 +26,7 @@ class JobRepository extends BaseRepository
 
     public function initRepository()
     {
-        $this->scopeQuery(function($query){
+        $this->scopeQuery(function ($query) {
             return $query->where('active', 1);
         });
     }

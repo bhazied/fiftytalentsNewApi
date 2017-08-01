@@ -17,7 +17,7 @@ class AddRecommendation extends Mailable
      */
     private $subscriber;
     
-    private  $recommendation;
+    private $recommendation;
 
     /**
      * Create a new message instance.
