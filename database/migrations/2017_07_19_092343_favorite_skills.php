@@ -13,7 +13,7 @@ class FavoriteSkills extends Migration
      */
     public function up()
     {
-        if(Schema::hasTable('c_profiles')){
+        if (Schema::hasTable('c_profiles')) {
             Schema::table('c_profiles', function (Blueprint $table) {
                 $table->text('favorite_skills')->after('skills_level')->nullable();
             });
@@ -27,7 +27,7 @@ class FavoriteSkills extends Migration
      */
     public function down()
     {
-        if(Schema::hasTable('c_profiles')){
+        if (Schema::hasTable('c_profiles')) {
             Schema::table('c_profiles', function (Blueprint $table) {
                 $table->removeColumn('favorite_skills');
             });

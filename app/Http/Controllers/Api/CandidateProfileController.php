@@ -70,6 +70,9 @@ class CandidateProfileController extends Controller
             if ($request->has('disponibility_date')) {
                 $response['disponibility_date'] = $this->candidateProfileService->saveDisponibilityDate($request->get('disponibility_date'), $profile);
             }
+            if ($request->has('state_mobility')) {
+                $response['state_mobility'] = $this->candidateProfileService->saveStateMobility($request->get('state_mobility'), $profile);
+            }
             return Response::json($response);
         } catch (\Exception $ex) {
             //return Response::json(['status' => false, 'message' => 'update error']);
@@ -129,6 +132,9 @@ class CandidateProfileController extends Controller
             }
             if ($request->has('disponibility_date')) {
                 $date['disponibility_date'] = Carbon::parse($request->get('disponibility_date'));
+            }
+            if ($request->has('state_mobility')) {
+                $date['state_mobility'] = json_encode($request->get('state_mobility'));
             }
             if (
                 $this->candidateProfileService->updateAll($data, $profile) &&

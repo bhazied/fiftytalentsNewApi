@@ -58,16 +58,21 @@ class CandidateProfilePresenter extends Presenter
     {
         try {
             $states = $this->states;
+            $stateMobility = $this->mobility_by_state;
             $stateRepository = resolve(StateRepository::class);
             $statesResult = [];
             foreach ($states as  $id) {
                 $state = $stateRepository->find($id);
                 if (!is_null($state)) {
-                    array_push($statesResult, [
+                    $tmp = [
                         'id' => $state->id,
                         'name' => $state->name,
                         'country' => $state->country->name
-                    ]);
+                    ];
+                    if (!is_null($stateMobility)) {
+                        $tmp['mobility'] = array_has($stateMobility, $id) ? $stateMobility[$id] : 0;
+                    }
+                    array_push($statesResult, $tmp);
                 }
             }
             return $statesResult;

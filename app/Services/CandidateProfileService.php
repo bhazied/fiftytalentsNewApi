@@ -159,11 +159,22 @@ class CandidateProfileService
         return $this->updatePatch(['favorite_skills' => $favoriteSkills], $profile);
     }
 
+    /**
+     * @param $disponibility
+     * @param CandidateProfile $profile
+     * @return bool
+     */
     public function saveDisponibilityDate($disponibility, CandidateProfile $profile)
     {
         $disponibility = Carbon::parse($disponibility);
         $disponibility->setTimezone(config('app.timezone'));
         return $this->updatePatch(['disponibility_date' => $disponibility], $profile);
+    }
+
+    public function saveStateMobility($stateMobility, CandidateProfile $profile)
+    {
+        $stateMobility = json_encode($stateMobility);
+        return $this->updatePatch(['mobility_by_state' => $stateMobility], $profile);
     }
 
     /**

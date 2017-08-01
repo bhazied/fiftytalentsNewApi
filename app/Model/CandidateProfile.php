@@ -20,7 +20,8 @@ class CandidateProfile extends Model
         'skills' => 'array',
         'skills_levels' => 'array',
         'states' => 'array',
-        'favorite_skills' => 'array'
+        'favorite_skills' => 'array',
+        'mobility_by_state' => 'array'
     ];
 
     protected $dates = [

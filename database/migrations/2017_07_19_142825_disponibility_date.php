@@ -13,9 +13,9 @@ class DisponibilityDate extends Migration
      */
     public function up()
     {
-        if(Schema::hasTable('c_profiles')){
+        if (Schema::hasTable('c_profiles')) {
             Schema::table('c_profiles', function (Blueprint $table) {
-                $table->timestamp(  'disponibility_date')->after('favorite_salary')->nullable();
+                $table->timestamp('disponibility_date')->after('favorite_salary')->nullable();
             });
         }
     }
@@ -27,7 +27,7 @@ class DisponibilityDate extends Migration
      */
     public function down()
     {
-        if(Schema::hasTable('c_profiles')){
+        if (Schema::hasTable('c_profiles')) {
             Schema::table('c_profiles', function (Blueprint $table) {
                 $table->removeColumn('disponibility_date');
             });

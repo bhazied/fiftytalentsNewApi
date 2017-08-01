@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class BannedEnterprise extends Migration
+class CadidateMobility extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class BannedEnterprise extends Migration
      */
     public function up()
     {
-        if(Schema::hasTable('c_profiles')){
+        if (Schema::hasTable('c_profiles')) {
             Schema::table('c_profiles', function (Blueprint $table) {
-                $table->text('banned_enterprise')->after('')->nullable();
+                $table->text('mobility_by_state')->after('disponibility_date')->nullable();
             });
         }
     }
@@ -27,9 +27,9 @@ class BannedEnterprise extends Migration
      */
     public function down()
     {
-        if(Schema::hasTable('c_profiles')){
+        if (Schema::hasTable('c_profiles')) {
             Schema::table('c_profiles', function (Blueprint $table) {
-                //
+                $table->removeColumn('mobility_by_state');
             });
         }
     }
