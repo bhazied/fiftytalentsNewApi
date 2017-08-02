@@ -57,10 +57,9 @@ class SubscriberResetPassword extends Controller
             ));
             $this->subscriberRepository->update(['password' => bcrypt($password)], $subscriber->id, $this->subscriberRepository->getModelKeyName());
             return Response::json(['status' => true, 'message' => 'new password sent to your email']);
-            return Response::json(['status' => true, 'message' => 'Error send new password']);
         } catch (\Exception $ex) {
             return Response::json(['status' => true, 'message' => $ex->getMessage()]);
-            //return Response::json(['status' => true, 'message' => 'Error send new password']);
+            return Response::json(['status' => true, 'message' => 'Error send new password']);
         }
     }
 }
