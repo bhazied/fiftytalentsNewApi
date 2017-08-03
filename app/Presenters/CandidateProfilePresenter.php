@@ -30,6 +30,9 @@ class CandidateProfilePresenter extends Presenter
             $favorite_skills = $this->favorite_skills;
             $skillRepository = resolve(SkillRepository::class);
             $skillsResult = [];
+            if (is_null($skills)) {
+                return [];
+            }
             foreach ($skills as $skill => $level) {
                 $item = $skillRepository->find($skill);
                 $tmp = [
