@@ -36,6 +36,8 @@ class CandidateProfileController extends Controller
             $response = [];
             if ($request->has('job')) {
                 $response['job'] = $this->candidateProfileService->saveJobs($request->get('job'), $profile);
+            } elseif ($request->exists('job') && $request->get('job') == '') {
+                $response['job'] = $this->candidateProfileService->saveJobs(null, $profile);
             }
 
             if ($request->has('skills')) {
@@ -51,6 +53,8 @@ class CandidateProfileController extends Controller
             }
             if ($request->has('mobility')) {
                 $response['mobility'] = $this->candidateProfileService->saveMobility($request->get('mobility'), $profile);
+            } elseif ($request->exists('mobility') && $request->get('mobility') == '') {
+                $response['mobility'] = $this->candidateProfileService->saveMobility(false, $profile);
             }
             if ($request->has('states')) {
                 $response['states'] = $this->candidateProfileService->saveStates($request->get('states'), $profile);
@@ -60,15 +64,21 @@ class CandidateProfileController extends Controller
             }
             if ($request->has('favorite_salary')) {
                 $response['favorite_salary'] = $this->candidateProfileService->saveFavoriteSalary($request->get('favorite_salary'), $profile);
+            } elseif ($request->exists('favorite_salary') && $request->get('favorite_salary') == '') {
+                $response['favorite_salary'] = $this->candidateProfileService->saveFavoriteSalary(null, $profile);
             }
             if ($request->has('synthesis')) {
                 $response['synthesis'] = $this->candidateProfileService->saveSynthesis($request->get('synthesis'), $profile);
+            } elseif ($request->exists('synthesis') && $request->get('synthesis') == '') {
+                $response['synthesis'] = $this->candidateProfileService->saveSynthesis(null, $profile);
             }
             if ($request->has('favorite_skills')) {
                 $response['favorite_skills'] = $this->candidateProfileService->saveFavoriteSkills($request->get('favorite_skills'), $profile);
             }
             if ($request->has('disponibility_date')) {
                 $response['disponibility_date'] = $this->candidateProfileService->saveDisponibilityDate($request->get('disponibility_date'), $profile);
+            } elseif ($request->exists('disponibility_date') && $request->get('disponibility_date') == '') {
+                $response['disponibility_date'] = $this->candidateProfileService->saveDisponibilityDate(null, $profile);
             }
             if ($request->has('state_mobility')) {
                 $response['state_mobility'] = $this->candidateProfileService->saveStateMobility($request->get('state_mobility'), $profile);
@@ -78,8 +88,7 @@ class CandidateProfileController extends Controller
             }
             return Response::json($response);
         } catch (\Exception $ex) {
-            //return Response::json(['status' => false, 'message' => 'update error']);
-            return Response::json($ex->getMessage());
+            return Response::json(['status' => false, 'message' => 'update error']);
         }
     }
 

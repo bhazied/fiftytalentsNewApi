@@ -40,6 +40,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::put('candidate/profile', 'Api\CandidateProfileController@updateAll')->name('patch_update_c_profile');
     Route::get('candidate/profile', 'Api\CandidateProfileController@getProfile')->name('get_profile');
     Route::resource('sponsorship', 'Api\SponsorshipController', ['only' => ['index', 'store', 'show'] ]);
+    Route::put('sponsorship/{token}', 'Api\SponsorshipController@check')->name('sponsorship.check');
 });
 
 Route::resource('countries', 'Api\CountryController', ['only' => 'index']);

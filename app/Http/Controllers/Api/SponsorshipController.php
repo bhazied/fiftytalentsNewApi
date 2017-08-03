@@ -90,14 +90,11 @@ class SponsorshipController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Model\SponsorShip  $sponsorShip
-     * @return \Illuminate\Http\Response
+     * @param $token
      */
-    public function edit(SponsorShip $sponsorShip)
+    public function check($token)
     {
-        //
+        dd($token);
     }
 
     /**
