@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\SponsorEvent;
 use App\Listeners\AuthenticateSubscriber;
+use App\Listeners\sponsorListener;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -20,6 +22,9 @@ class EventServiceProvider extends ServiceProvider
         'Laravel\Passport\Events\AccessTokenCreated' => [
             AuthenticateSubscriber::class
         ],
+        SponsorEvent::class => [
+            sponsorListener::class
+        ]
     ];
 
     /**

@@ -95,8 +95,8 @@ class SponsorshipController extends Controller
     public function check($token)
     {
         try {
-            $sponsorship = $this->sponsorshipRepository->findBy('token', $token);
-            if ($sponsorship) {
+            $sponsorship = $this->sponsorshipRepository->findBy('token', $token)->first();
+            if ($sponsorship->status === 'waiting') {
                 return Response::json(['status' => true, 'sponsorship' => $sponsorship]);
             }
             return Response::json(['status' => false, 'sponsorship' => null]);
