@@ -94,7 +94,15 @@ class SponsorshipController extends Controller
      */
     public function check($token)
     {
-        dd($token);
+        try {
+            $sponsorship = $this->sponsorshipRepository->findBy('token', $token);
+            if ($sponsorship) {
+                return Response::json(['status' => true, 'sponsorship' => $sponsorship]);
+            }
+            return Response::json(['status' => false, 'sponsorship' => null]);
+        } catch (\Exception $ex) {
+            return Response::json(['status' => false, 'sponsorship' => null]);
+        }
     }
 
     /**

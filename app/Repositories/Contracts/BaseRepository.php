@@ -315,6 +315,7 @@ abstract class BaseRepository implements IRepository, IRepositoryCriteria
      */
     public function findBy($field, $value, $columns = ['*'])
     {
+        $this->resetModel();
         $this->applyCriteria();
         return $this->model->where($field, '=', $value)->get($columns);
     }
