@@ -17,6 +17,6 @@ class EntrepriseHitCriteria extends Criteria
     public function apply($model, IRepository $repository)
     {
         $profile = Auth::user()->e_profiles->first();
-        return $model->where('e_profile_id', $profile->id);
+        return $model->where(['e_profile_id' => $profile->id, 'profile_type' => 'C']);
     }
 }

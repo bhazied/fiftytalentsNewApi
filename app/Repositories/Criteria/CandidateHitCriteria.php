@@ -17,6 +17,6 @@ class CandidateHitCriteria extends Criteria
     public function apply($model, IRepository $repository)
     {
         $profile = Auth::user()->profiles->first();
-        return $model->where('c_profile_id', $profile->id);
+        return $model->where(['c_profile_id' =>  $profile->id, 'profile_type' => 'E']);
     }
 }
