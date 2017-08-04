@@ -26,6 +26,11 @@ class Subscriber extends Authenticatable
         return $this->hasMany(CandidateProfile::class);
     }
 
+    public function e_profiles()
+    {
+        return $this->hasMany(EntrepriseProfile::class);
+    }
+
     public function sponsorships()
     {
         return $this->hasMany(Sponsorship::class);
