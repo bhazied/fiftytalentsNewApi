@@ -176,7 +176,7 @@ class CandidateProfileController extends Controller
                 'job' => $profile->job,
                 'favorite_salary' => $profile->favorite_salary,
                 'disponibility_in' =>  $this->getReelTimeDisponibility($profile),
-                'disponibility_date' => $this->disponibility_date,
+                'disponibility_date' => $profile->disponibility_date,
                 'states' => $profile->present()->getStates,
                 'web_presence' => $profile->present()->getWebPresence,
                 'synthesis' => $profile->synthesis,
