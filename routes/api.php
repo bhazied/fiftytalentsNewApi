@@ -42,6 +42,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::resource('sponsorship', 'Api\SponsorshipController', ['only' => ['index', 'store', 'show'] ]);
     Route::put('sponsorship/{token}', 'Api\SponsorshipController@check')->name('sponsorship.check');
     Route::resource('candidate/hits', 'Api\HitsController', ['only' => ['index', 'store', 'show'] ]);
+    Route::get('candidate/enterprise', 'Api\CandidateProfileController@favoriteEnterprise')->name('favorite_candidate');
 });
 
 Route::resource('countries', 'Api\CountryController', ['only' => 'index']);

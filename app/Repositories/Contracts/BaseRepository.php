@@ -329,6 +329,29 @@ abstract class BaseRepository implements IRepository, IRepositoryCriteria
         return $count;
     }
 
+    /**
+     * @param $id
+     * @param $relation
+     * @param $attribute
+     * @param $detaching
+     * @return mixed
+     */
+    public function sync($id, $relation, $attribute, $detaching)
+    {
+        return $this->find($id)->{$relation}()->sync($attribute, $detaching);
+    }
+
+    /**
+     * @param $id
+     * @param $relation
+     * @param $attribute
+     * @return mixed
+     */
+    public function syncWithoutDetaching($id, $relation, $attribute)
+    {
+        return $this->sync($id, $relation, $attribute, false);
+    }
+
 
     /**
      * @param array $where

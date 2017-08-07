@@ -37,4 +37,8 @@ interface IRepository
     public function resetScope();
 
     public function getSearchableFields();
+
+    public function sync($id, $relation, $attribute, $detaching);
+
+    public function syncWithoutDetaching($id, $relation, $attribute);
 }

@@ -194,6 +194,17 @@ class CandidateProfileController extends Controller
         }
     }
 
+    public function favoriteEnterprise()
+    {
+        try {
+            $profile = Auth::user()->profiles->first();
+            $banneds = array_keys($profile->banned_enterprises);
+            return Response::json($profile->favorites()->whereNotIn('e_profile_id', $banneds)->get());
+        } catch (\Exception $ex) {
+            return Response::json($ex->getMessage());
+        }
+    }
+
     /**
      * @param $profile
      * @return string

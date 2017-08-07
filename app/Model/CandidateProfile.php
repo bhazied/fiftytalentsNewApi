@@ -56,4 +56,9 @@ class CandidateProfile extends Model
     {
         return $this->belongsTo(Job::class);
     }
+
+    public function favorites()
+    {
+        return $this->belongsToMany(EntrepriseProfile::class, 'favorite_candidates', 'c_profile_id', 'e_profile_id');
+    }
 }
