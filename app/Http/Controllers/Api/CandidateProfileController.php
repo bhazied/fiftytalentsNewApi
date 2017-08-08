@@ -178,7 +178,7 @@ class CandidateProfileController extends Controller
                 'disponibility_in' =>  $this->getReelTimeDisponibility($profile),
                 'disponibility_date' => $profile->disponibility_date,
                 'states' => $profile->present()->getStates,
-                'web_presence' => $profile->present()->getWebPresence,
+                'social_links' => $profile->present()->getWebPresence,
                 'synthesis' => $profile->synthesis,
                 'mobile' => $profile->mobile,
                 'profile' => $profile->profile,
