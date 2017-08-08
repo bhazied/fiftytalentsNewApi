@@ -40,6 +40,9 @@ class SponsorshipController extends Controller
         $inlineCount =  $this->sponsorshipRepository->pushCriteria(App::make('\App\Repositories\Criteria\RequestCriteria'))->count();
         $results = $this->sponsorshipRepository->pushCriteria(App::make('\App\Repositories\Criteria\RequestCriteria'))
             ->pushCriteria(App::make('\App\Repositories\Criteria\PagerCriteria'))
+            ->scopeQuery(function ($query) {
+                return $query->where('c_profile_id', Auth::user()->profiles->first()->id);
+            })
             ->lists();
         return Response::json(compact('inlineCount', 'results'));
     }
