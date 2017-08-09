@@ -37,7 +37,7 @@ class SponsorshipController extends Controller
      */
     public function index()
     {
-        $inlineCount =  $this->sponsorshipRepository->pushCriteria(App::make('\App\Repositories\Criteria\RequestCriteria'))->count();
+        //$inlineCount =  $this->sponsorshipRepository->pushCriteria(App::make('\App\Repositories\Criteria\RequestCriteria'))->count();
         $results = $this->sponsorshipRepository->pushCriteria(App::make('\App\Repositories\Criteria\RequestCriteria'))
             ->pushCriteria(App::make('\App\Repositories\Criteria\PagerCriteria'))
             ->scopeQuery(function ($query) {
